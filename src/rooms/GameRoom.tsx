@@ -1,10 +1,13 @@
 import React, {PureComponent} from 'react';
-import {Text, Container} from 'react-pixi-fiber';
+import {Container} from 'react-pixi-fiber';
 import {color} from "../utils/color";
 import {Grid} from "../utils/Grid";
 import {fromEvent, merge, Subject, timer} from "rxjs";
 import {filter, map, takeUntil} from "rxjs/operators";
 import keycode from "keycode";
+import {Letter} from "../atoms/Letter";
+import {SymbolType} from "../entities/SymbolType";
+import {parseHTMLStr} from "../utils/parseHTMLStr";
 
 interface IProps {}
 
@@ -17,6 +20,7 @@ enum Command {
   SHIFT_RIGHT,
   BOTTOM,
   SHIFT_BOTTOM,
+  IDLE,
 }
 
 interface IState {
@@ -37,13 +41,6 @@ interface ITag {
 enum TagActionType {
   TAG,
   ATTR,
-}
-
-enum SymbolType {
-  CONST,
-  TAG,
-  ATTR,
-  VALUE,
 }
 
 interface ICell {
@@ -67,16 +64,49 @@ const KeyShiftCommandMap: {[key: string]: Command} = {
   d: Command.SHIFT_RIGHT,
 };
 
+const HEIGHT = 32;
+const WIDTH = 53;
 const CELL_HEIGHT = 25;
 const CELL_WIDTH = 15;
-const CENTER_ANCHOR = '0.5,0.5';
-const RANDOM_TEXTS = [
+
+const COLOR_MAP = {
+  [SymbolType.UNKNOWN]: color('#FFFFFF'),
+  [SymbolType.CONST]: color('#adadad'),
+  [SymbolType.TAG]: color('#df426d'),
+  [SymbolType.VALUE]: color('#f0ff61'),
+  [SymbolType.EQUAl]: color('#f8ff7d'),
+  [SymbolType.ATTR]: color('#72ff56'),
+};
+
+const RANDOM_TAGS = [
   'div',
   'a',
   'b',
   'span',
   'table',
+  'template',
+  'svg',
+  'path',
+  'main',
+  'nav',
+  'ul',
+  'li',
   'img',
+];
+
+const RANDOM_ATTRS = [
+  'class',
+  'title',
+  'id',
+  'href',
+  'onclick',
+  'name',
+  'role',
+];
+
+const RANDOM_TEXTS = [
+  ...RANDOM_TAGS,
+  ...RANDOM_ATTRS,
 ];
 
 export class GameRoom extends PureComponent<IProps, IState> {
@@ -85,14 +115,34 @@ export class GameRoom extends PureComponent<IProps, IState> {
   private dom: ITag = {
     tag: 'root',
     properties: {},
-    children: [],
+    children: [
+      {
+        tag: 'span',
+        properties: {id: 'first', class: "second"},
+        children: [
+          {
+            tag: 'img',
+            properties: {},
+            children: [],
+            collapsed: true,
+          }
+        ],
+        collapsed: false,
+      },
+      {
+        tag: 'span',
+        properties: {id: 'first'},
+        children: [],
+        collapsed: false,
+      }
+    ],
     collapsed: false,
   };
 
   state = {
-    lines: new Grid<ICell>(30),
-    leftText: 'attr',
-    leftState: Command.BOTTOM,
+    lines: new Grid<ICell>(Math.max(HEIGHT, WIDTH)),
+    leftText: RANDOM_TAGS[Math.floor(Math.random() * RANDOM_TAGS.length)],
+    leftState: Command.IDLE,
     leftX: 0,
     leftY: 0,
   };
@@ -115,12 +165,20 @@ export class GameRoom extends PureComponent<IProps, IState> {
       str = `<${tag.tag} ${propsStringified}>`;
     }
 
-    [...str].forEach((symbol, index) => {
+    if (tag.collapsed) {
+      str = `<${tag.tag}/>`;
+    }
+
+    for (let i = 0; i < WIDTH; i++) {
+      this.state.lines.unset(i, top);
+    }
+
+    parseHTMLStr(str, (symbolType, symbol, index) => {
       this.state.lines.set(left + index, top, {
         symbol,
         tag,
         type: TagActionType.TAG,
-        symbolType: ['<', '/', '>'].includes(symbol) ? SymbolType.CONST : SymbolType.TAG,
+        symbolType,
       });
     });
   }
@@ -128,12 +186,16 @@ export class GameRoom extends PureComponent<IProps, IState> {
   private drawCloseTag(tag: ITag, left: number, top: number) {
     let str = `</${tag.tag}>`;
 
-    [...str].forEach((symbol, index) => {
+    for (let i = 0; i < WIDTH; i++) {
+      this.state.lines.unset(i, top);
+    }
+
+    parseHTMLStr(str, (symbolType, symbol, index) => {
       this.state.lines.set(left + index, top, {
         symbol,
         tag,
         type: TagActionType.TAG,
-        symbolType: ['<', '/', '>'].includes(symbol) ? SymbolType.CONST : SymbolType.TAG,
+        symbolType,
       });
     });
   }
@@ -143,21 +205,23 @@ export class GameRoom extends PureComponent<IProps, IState> {
 
     this.drawOpenTag(tag, left, top);
 
-    const linesCount = this.getTagLinesCount(tag);
-
+    let childTop = top + 1;
     tag.children.forEach(child => {
-      this.drawTag(child, left + 1, top + 1, openedTags);
+      this.drawTag(child, left + 1, childTop, openedTags);
+      childTop += this.getTagLinesCount(child);
     });
 
-    this.drawCloseTag(tag, left, top + linesCount);
-
-    openedTags.pop();
+    if (!tag.collapsed) {
+      this.drawCloseTag(tag, left, childTop);
+      openedTags.pop();
+    }
   }
 
   componentWillMount() {
+    const linesCount = this.getTagLinesCount(this.dom);
     let openedTags: string[] = [];
     let left = 1;
-    let top = 4;
+    let top = (HEIGHT - linesCount) >> 1;
 
     this.drawTag(this.dom, left, top, openedTags);
 
@@ -206,26 +270,55 @@ export class GameRoom extends PureComponent<IProps, IState> {
     this.setState({leftX, leftY, leftState, leftText});
   }
 
-  private tryVerticalMove(targetOffset: number) {
-    let {leftX, leftY, leftState, leftText, lines} = this.state;
-
+  private getVerticalOffsetToCollide(x: number, y: number, targetOffset: number): number {
+    let {lines} = this.state;
     let offset = targetOffset / Math.abs(targetOffset);
 
     if (targetOffset < 0) {
-      while (!lines.has(leftX, leftY + offset)) {
+      while (!lines.has(x, y + offset)) {
         if (offset === targetOffset) {
           break;
         }
         offset--;
       }
     } else {
-      while (!lines.has(leftX, leftY + offset)) {
+      while (!lines.has(x, y + offset)) {
         if (offset === targetOffset) {
           break;
         }
         offset++;
       }
     }
+
+    return offset;
+  }
+
+  private getHorizontalOffsetToCollide(x: number, y: number, targetOffset: number): number {
+    let {lines} = this.state;
+    let offset = targetOffset / Math.abs(targetOffset);
+
+    if (targetOffset < 0) {
+      while (!lines.has(x + offset, y)) {
+        if (offset === targetOffset) {
+          break;
+        }
+        offset--;
+      }
+    } else {
+      while (!lines.has(x + offset, y)) {
+        if (offset === targetOffset) {
+          break;
+        }
+        offset++;
+      }
+    }
+
+    return offset;
+  }
+
+  private tryVerticalMove(targetOffset: number) {
+    let {leftX, leftY, leftState, leftText, lines} = this.state;
+    const offset = this.getVerticalOffsetToCollide(leftX, leftY, targetOffset);
 
     leftY += offset;
 
@@ -248,14 +341,19 @@ export class GameRoom extends PureComponent<IProps, IState> {
 
       tag.properties[leftText] = '';
 
-      this.drawTag(this.dom, 1, 4, []);
+      const linesCount = this.getTagLinesCount(this.dom);
+      let openedTags: string[] = [];
+      let left = 1;
+      let top = (HEIGHT - linesCount) >> 1;
+
+      this.drawTag(this.dom, left, top, openedTags);
 
       this.reSpawnLeft();
 
       return;
     }
 
-    if (leftY < 0 || leftY > 20 || leftX < 0 || leftX > 30) {
+    if (leftY < 0 || leftY > HEIGHT || leftX < 0 || leftX > WIDTH) {
       this.reSpawnLeft();
 
       return;
@@ -264,12 +362,51 @@ export class GameRoom extends PureComponent<IProps, IState> {
     this.setState({leftX, leftY, leftState, leftText});
   }
 
-  private tryHorizontalMove(offset: number) {
+  private tryHorizontalMove(targetOffset: number) {
     let {leftX, leftY, leftState, leftText, lines} = this.state;
+    const offset = this.getHorizontalOffsetToCollide(leftX, leftY, targetOffset);
 
     leftX += offset;
 
-    if (leftY < 0 || leftY > 20 || leftX < 0 || leftX > 30) {
+    if (lines.has(leftX, leftY)) {
+      // while (lines.get(++x, leftY) !== '>') {
+      //   if (x > 30) {
+      //     if (leftState === Command.TOP) {
+      //       this.setState({leftState: Command.BOTTOM});
+      //     }
+      //
+      //     if (leftState === Command.BOTTOM) {
+      //       this.setState({leftState: Command.TOP});
+      //     }
+      //
+      //     return;
+      //   }
+      // }
+
+      const {tag} = lines.get(leftX, leftY);
+
+      tag.children.push({
+        tag: leftText,
+        properties: {},
+        collapsed: false,
+        children: [],
+      });
+
+      const linesCount = this.getTagLinesCount(this.dom);
+      let openedTags: string[] = [];
+      let left = 1;
+      let top = (HEIGHT - linesCount) >> 1;
+
+      this.state.lines.clear();
+
+      this.drawTag(this.dom, left, top, openedTags);
+
+      this.reSpawnLeft();
+
+      return;
+    }
+
+    if (leftY < 0 || leftY > HEIGHT || leftX < 0 || leftX > WIDTH) {
       this.reSpawnLeft();
 
       return;
@@ -323,12 +460,11 @@ export class GameRoom extends PureComponent<IProps, IState> {
       <Container>
         {
           [...this.state.leftText].map((symbol, i) => (
-            <Text
+            <Letter
               key={i}
               x={(this.state.leftX + i) * CELL_WIDTH}
               y={this.state.leftY * CELL_HEIGHT}
-              anchor={CENTER_ANCHOR}
-              style={{fill: color('#FFFFFF')}}
+              color={color('#FFFFFF')}
               text={symbol}
             />
           ))
@@ -337,12 +473,11 @@ export class GameRoom extends PureComponent<IProps, IState> {
 
         {
           this.state.lines.map(({symbol, symbolType}, x, y) => (
-            <Text
+            <Letter
               key={`${x}.${y}`}
               x={x * CELL_WIDTH}
               y={y * CELL_HEIGHT}
-              anchor={CENTER_ANCHOR}
-              style={{fill: symbolType === SymbolType.CONST ? color('#ff4e90') : color('#CCCCCC')}}
+              color={COLOR_MAP[symbolType]}
               text={symbol}
             />
           ))

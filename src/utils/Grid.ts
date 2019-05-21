@@ -23,6 +23,14 @@ export class Grid<T> {
     return this;
   }
 
+  unset(x: number, y: number): Grid<T> {
+    let key = this.getKey(x, y);
+    if ((key >= 0) && (x < this.size) && (y < this.size)) {
+      delete this.data[key];
+    }
+    return this;
+  }
+
   get(x: number, y: number): T {
     return this.data[this.getKey(x, y)];
   }

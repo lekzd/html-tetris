@@ -4,8 +4,8 @@ import {Stage} from 'react-pixi-fiber';
 import {color} from "./utils/color";
 import {GameRoom} from "./rooms/GameRoom";
 
-const height = 500;
-const width = 500;
+const height = 800;
+const width = 800;
 const OPTIONS = {
   backgroundColor: color('#250b23')
 };
