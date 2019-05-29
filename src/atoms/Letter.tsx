@@ -5,7 +5,7 @@ interface IProps extends Partial<TextProperties> {
   color: number;
 }
 
-const CENTER_ANCHOR = '0.5,0.5';
+const CENTER_ANCHOR = '0,0' as any;
 
 export const Letter: React.FC<IProps> = props => (
   <Text

@@ -44,8 +44,10 @@ enum TagActionType {
 }
 
 interface ICell {
+  parent: ITag;
   symbol: string;
   tag: ITag;
+  isClosed: boolean;
   type: TagActionType;
   symbolType: SymbolType;
 }
@@ -154,7 +156,7 @@ export class GameRoom extends PureComponent<IProps, IState> {
       + (tag.collapsed ? 1 : 2);
   }
 
-  private drawOpenTag(tag: ITag, left: number, top: number) {
+  private drawOpenTag(tag: ITag, parent: ITag, left: number, top: number) {
     let str = `<${tag.tag}>`;
 
     if (Object.keys(tag.properties).length) {
@@ -175,15 +177,17 @@ export class GameRoom extends PureComponent<IProps, IState> {
 
     parseHTMLStr(str, (symbolType, symbol, index) => {
       this.state.lines.set(left + index, top, {
+        parent,
         symbol,
         tag,
+        isClosed: tag.collapsed,
         type: TagActionType.TAG,
         symbolType,
       });
     });
   }
 
-  private drawCloseTag(tag: ITag, left: number, top: number) {
+  private drawCloseTag(tag: ITag, parent: ITag, left: number, top: number) {
     let str = `</${tag.tag}>`;
 
     for (let i = 0; i < WIDTH; i++) {
@@ -193,26 +197,28 @@ export class GameRoom extends PureComponent<IProps, IState> {
     parseHTMLStr(str, (symbolType, symbol, index) => {
       this.state.lines.set(left + index, top, {
         symbol,
+        parent,
         tag,
+        isClosed: true,
         type: TagActionType.TAG,
         symbolType,
       });
     });
   }
 
-  private drawTag(tag: ITag, left: number, top: number, openedTags: string[]) {
+  private drawTag(tag: ITag, parent: ITag, left: number, top: number, openedTags: string[]) {
     openedTags.push(tag.tag);
 
-    this.drawOpenTag(tag, left, top);
+    this.drawOpenTag(tag, parent, left, top);
 
     let childTop = top + 1;
     tag.children.forEach(child => {
-      this.drawTag(child, left + 1, childTop, openedTags);
+      this.drawTag(child, tag, left + 1, childTop, openedTags);
       childTop += this.getTagLinesCount(child);
     });
 
     if (!tag.collapsed) {
-      this.drawCloseTag(tag, left, childTop);
+      this.drawCloseTag(tag, parent, left, childTop);
       openedTags.pop();
     }
   }
@@ -223,7 +229,7 @@ export class GameRoom extends PureComponent<IProps, IState> {
     let left = 1;
     let top = (HEIGHT - linesCount) >> 1;
 
-    this.drawTag(this.dom, left, top, openedTags);
+    this.drawTag(this.dom, this.dom, left, top, openedTags);
 
     timer(0, 200)
       .pipe(takeUntil(this.unmount$))
@@ -346,7 +352,7 @@ export class GameRoom extends PureComponent<IProps, IState> {
       let left = 1;
       let top = (HEIGHT - linesCount) >> 1;
 
-      this.drawTag(this.dom, left, top, openedTags);
+      this.drawTag(this.dom, this.dom, left, top, openedTags);
 
       this.reSpawnLeft();
 
@@ -383,14 +389,30 @@ export class GameRoom extends PureComponent<IProps, IState> {
       //   }
       // }
 
-      const {tag} = lines.get(leftX, leftY);
+      const {tag, isClosed, parent} = lines.get(leftX, leftY);
 
-      tag.children.push({
-        tag: leftText,
-        properties: {},
-        collapsed: false,
-        children: [],
-      });
+      if (isClosed) {
+        const index = parent.children.indexOf(tag);
+        const newTag = {
+          tag: leftText,
+          properties: {},
+          collapsed: false,
+          children: [],
+        };
+
+        parent.children = [
+          ...parent.children.slice(0, index + 1),
+          newTag,
+          ...parent.children.slice(index + 1),
+        ];
+      } else {
+        tag.children.unshift({
+          tag: leftText,
+          properties: {},
+          collapsed: false,
+          children: [],
+        });
+      }
 
       const linesCount = this.getTagLinesCount(this.dom);
       let openedTags: string[] = [];
@@ -399,7 +421,7 @@ export class GameRoom extends PureComponent<IProps, IState> {
 
       this.state.lines.clear();
 
-      this.drawTag(this.dom, left, top, openedTags);
+      this.drawTag(this.dom, this.dom, left, top, openedTags);
 
       this.reSpawnLeft();
 
