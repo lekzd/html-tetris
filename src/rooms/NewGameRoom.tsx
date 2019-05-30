@@ -37,8 +37,6 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
         const topOffset = (HEIGHT - lines.length) >> 1;
         const leftOffset = 2;
 
-        console.log('game top offset', topOffset);
-
         this.setState({lines, leftOffset, topOffset});
       });
 

@@ -31,10 +31,6 @@ export class Dom extends Subject<string[]> {
     this.leftOffset = 2;
     this.topOffset = (HEIGHT - this.renderedLines.length) >> 1;
 
-
-
-    console.log('DOM top offset', this.topOffset);
-
     this.next(this.renderedLines);
   }
 
