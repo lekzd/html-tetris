@@ -39,8 +39,7 @@ export class CodeLines extends PureComponent<IProps, IState> {
     lines: new Grid<ICell>(Math.max(WIDTH, HEIGHT)),
   };
 
-  private setLinesToState(lines: string[]) {
-    const {leftOffset, topOffset} = this.props;
+  private setLinesToState(lines: string[], leftOffset: number, topOffset: number) {
     const newLines = new Grid<ICell>(Math.max(WIDTH, HEIGHT));
 
     lines.forEach((line, top) => {
@@ -59,11 +58,13 @@ export class CodeLines extends PureComponent<IProps, IState> {
   }
 
   componentWillMount() {
-    this.setLinesToState(this.props.lines);
+    const {lines, leftOffset, topOffset} = this.props;
+
+    this.setLinesToState(lines, leftOffset, topOffset);
   }
 
-  componentWillReceiveProps({lines}: IProps) {
-    this.setLinesToState(lines);
+  componentWillReceiveProps({lines, leftOffset, topOffset}: IProps) {
+    this.setLinesToState(lines, leftOffset, topOffset);
   }
 
   render() {

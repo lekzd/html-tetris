@@ -80,9 +80,12 @@ export class Grid<T> {
     for (let y = 0, end = this.size, asc = 0 <= end; asc ? y <= end : y >= end; asc ? y++ : y--) {
       let row = '';
       for (let x = 0, end1 = this.size, asc1 = 0 <= end1; asc1 ? x <= end1 : x >= end1; asc1 ? x++ : x--) {
-        let num: any = Number(this.get(x, y));
-        if (isNaN(num)) { num = '.'; }
-        row += num.toString() + ',';
+        let num: any = this.get(x, y);
+        if (!num) {
+          row += '.,';
+        } else {
+          row += num.symbol + ',';
+        }
       }
       grid += `\
             [${row}]`;

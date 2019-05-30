@@ -31,6 +31,10 @@ export class Dom extends Subject<string[]> {
     this.leftOffset = 2;
     this.topOffset = (HEIGHT - this.renderedLines.length) >> 1;
 
+
+
+    console.log('DOM top offset', this.topOffset);
+
     this.next(this.renderedLines);
   }
 
@@ -66,8 +70,8 @@ export class Dom extends Subject<string[]> {
       return null;
     }
 
-    const start = rendered.indexOf('<');
-    const end = rendered.indexOf('>');
+    const start = rendered.indexOf('<') + this.leftOffset;
+    const end = rendered.indexOf('>') + this.leftOffset;
 
     if (x < start || x > end) {
       return null;

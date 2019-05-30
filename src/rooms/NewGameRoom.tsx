@@ -37,6 +37,8 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
         const topOffset = (HEIGHT - lines.length) >> 1;
         const leftOffset = 2;
 
+        console.log('game top offset', topOffset);
+
         this.setState({lines, leftOffset, topOffset});
       });
 
@@ -50,7 +52,10 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
   render() {
     return (
       <Container>
-        <Player dom={this.dom} input$={this.keyBoardInput$} />
+        <Player
+          dom={this.dom}
+          input$={this.keyBoardInput$}
+        />
 
         <CodeLines
           lines={this.state.lines}
