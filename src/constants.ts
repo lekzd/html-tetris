@@ -26,7 +26,12 @@ export const RANDOM_TAGS = [
   'b',
   'span',
   'table',
+  'tr',
+  'td',
   'template',
+  'picture',
+  'video',
+  'source',
   'svg',
   'path',
   'main',
@@ -34,6 +39,8 @@ export const RANDOM_TAGS = [
   'ul',
   'li',
   'img',
+  'input',
+  'button',
 ];
 
 export const RANDOM_ATTRS = [
@@ -43,7 +50,12 @@ export const RANDOM_ATTRS = [
   'href',
   'onclick',
   'name',
+  'type',
   'role',
+  'width',
+  'height',
+  'style',
+  'aria-label',
 ];
 
 export const RANDOM_TEXTS = [

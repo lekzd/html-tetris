@@ -57,7 +57,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
         this.setState({lines, leftOffset, topOffset});
       });
 
-    this.dom.pushNode('root');
+    this.dom.pushNode('body');
   }
 
   componentWillUnmount() {
@@ -88,6 +88,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
         {
           this.state.lines.map((line, index) => (
             <Word
+              key={index}
               x={0}
               y={(index + this.state.topOffset) * CELL_HEIGHT}
               text={index.toString().padStart(2, ' ')}
