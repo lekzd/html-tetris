@@ -1,5 +1,15 @@
 import React, {Fragment, PureComponent} from "react";
-import {CELL_HEIGHT, CELL_WIDTH, Command, HEIGHT, RANDOM_TAGS, RANDOM_TEXTS, WIDTH} from "../constants";
+import {
+  CELL_HEIGHT,
+  CELL_WIDTH,
+  Command,
+  HEIGHT,
+  NUMBERS_COLOR,
+  PLAYER_COLOR,
+  RANDOM_TAGS,
+  RANDOM_TEXTS,
+  WIDTH
+} from "../constants";
 import {Dom} from "../entities/Dom";
 import {Observable, Subject, timer} from "rxjs";
 import {takeUntil} from "rxjs/operators";
@@ -260,12 +270,14 @@ export class Player extends PureComponent<IProps, IState> {
             x={0}
             y={0}
             text={this.state.text}
+            fill={PLAYER_COLOR}
           />
         </Filter>
         <Word
           x={textLeft}
           y={textTop}
           text={this.state.text}
+          fill={PLAYER_COLOR}
         />
       </Fragment>
     )

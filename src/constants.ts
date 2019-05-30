@@ -6,13 +6,18 @@ export const WIDTH = 53;
 export const CELL_HEIGHT = 25;
 export const CELL_WIDTH = 15;
 
+export const BACKGROUND_COLOR = color('#272822');
+export const HIGHLIGHT_COLOR = color('#1e1d1e');
+export const NUMBERS_COLOR = color('#899089');
+export const PLAYER_COLOR = color('#FFFFFF');
+
 export const COLOR_MAP = {
   [SymbolType.UNKNOWN]: color('#FFFFFF'),
-  [SymbolType.CONST]: color('#adadad'),
-  [SymbolType.TAG]: color('#df426d'),
-  [SymbolType.VALUE]: color('#f0ff61'),
-  [SymbolType.EQUAl]: color('#f8ff7d'),
-  [SymbolType.ATTR]: color('#72ff56'),
+  [SymbolType.CONST]: color('#f1efe2'),
+  [SymbolType.TAG]: color('#dd2568'),
+  [SymbolType.VALUE]: color('#c4af4f'),
+  [SymbolType.EQUAl]: color('#d4d3be'),
+  [SymbolType.ATTR]: color('#9abd06'),
 };
 
 export const RANDOM_TAGS = [

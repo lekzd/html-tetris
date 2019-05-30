@@ -6,6 +6,7 @@ import {Container, ContainerProperties} from "react-pixi-fiber";
 
 interface IProps extends ContainerProperties {
   text: string;
+  fill: number;
 }
 
 interface IState {
@@ -41,7 +42,7 @@ export class Word extends PureComponent<IProps, IState> {
               key={i}
               x={(i) * CELL_WIDTH}
               y={0}
-              color={color('#FFFFFF')}
+              color={this.props.fill}
               text={symbol}
             />
           ))

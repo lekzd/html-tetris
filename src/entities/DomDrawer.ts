@@ -57,6 +57,18 @@ export class DomDrawer {
     return `</${tag.name}>`;
   }
 
+  getNodeIndexes(node: INode): number[] {
+    const result: number[] = [];
+
+    this.renderedIndexes.forEach((renderedNode, index) => {
+      if (renderedNode === node) {
+        result.push(index);
+      }
+    });
+
+    return result;
+  }
+
   getRenderedStrings(): string[] {
     this.renderedIndexes.clear();
     this.renderedLines = [];

@@ -6,6 +6,8 @@ import {HEIGHT} from "../constants";
 
 export class Dom extends Subject<string[]> {
 
+  affectedLines$ = new Subject<number[]>();
+
   private renderedLines: string[] = [];
   private data = new Array<INode>();
   private attributes = new WeakMap<INode, IAttributes>();
@@ -28,7 +30,7 @@ export class Dom extends Subject<string[]> {
 
   private renderTree() {
     this.renderedLines = this.drawer.getRenderedStrings();
-    this.leftOffset = 2;
+    this.leftOffset = 3;
     this.topOffset = (HEIGHT - this.renderedLines.length) >> 1;
 
     this.next(this.renderedLines);
@@ -39,6 +41,7 @@ export class Dom extends Subject<string[]> {
 
     this.data.unshift(newNode);
     this.renderTree();
+    this.affectedLines$.next(this.drawer.getNodeIndexes(newNode));
   }
 
   pushNode(name: string, parent?: INode) {
@@ -46,6 +49,7 @@ export class Dom extends Subject<string[]> {
 
     this.data.push(newNode);
     this.renderTree();
+    this.affectedLines$.next(this.drawer.getNodeIndexes(newNode));
   }
 
   addAttribute(name: string, node: INode) {
@@ -57,6 +61,7 @@ export class Dom extends Subject<string[]> {
 
     attributes.set(name, '');
     this.renderTree();
+    this.affectedLines$.next(this.drawer.getNodeIndexes(node));
   }
 
   getNodeByPosition(x: number, y: number): INode | null {

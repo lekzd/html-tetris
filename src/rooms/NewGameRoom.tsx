@@ -4,14 +4,17 @@ import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {Dom} from "../entities/Dom";
 import {CodeLines} from "../molecules/CodeLines";
-import {HEIGHT} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, HIGHLIGHT_COLOR, NUMBERS_COLOR, WIDTH} from "../constants";
 import {Player} from "../molecules/PLayer";
 import {KeyBoardInput} from "../entities/KeyBoardInput";
+import {Rectangle} from "../atoms/Rectangle";
+import {Word} from "../atoms/Word";
 
 interface IProps {}
 
 interface IState {
   lines: string[];
+  affectedLines: number[];
 
   leftOffset: number;
   topOffset: number;
@@ -24,18 +27,32 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
   state = {
     lines: [],
+    affectedLines: [],
     leftOffset: 0,
     topOffset: 0,
   };
 
   componentWillMount() {
 
+    this.dom.affectedLines$
+      .pipe(
+        takeUntil(this.unmount$)
+      ).subscribe(lines => {
+
+        this.setState({affectedLines: lines});
+
+        setTimeout(() => {
+          this.setState({affectedLines: []});
+        }, 1000);
+
+      });
+
     this.dom
       .pipe(
         takeUntil(this.unmount$)
       ).subscribe(lines => {
         const topOffset = (HEIGHT - lines.length) >> 1;
-        const leftOffset = 2;
+        const leftOffset = 3;
 
         this.setState({lines, leftOffset, topOffset});
       });
@@ -54,6 +71,30 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
           dom={this.dom}
           input$={this.keyBoardInput$}
         />
+
+        {
+          this.state.affectedLines.map(index => (
+            <Rectangle
+              key={index}
+              x={0}
+              y={(index + this.state.topOffset) * CELL_HEIGHT}
+              width={WIDTH * CELL_WIDTH}
+              height={CELL_HEIGHT}
+              fill={HIGHLIGHT_COLOR}
+            />
+          ))
+        }
+
+        {
+          this.state.lines.map((line, index) => (
+            <Word
+              x={0}
+              y={(index + this.state.topOffset) * CELL_HEIGHT}
+              text={index.toString().padStart(2, ' ')}
+              fill={NUMBERS_COLOR}
+            />
+          ))
+        }
 
         <CodeLines
           lines={this.state.lines}
