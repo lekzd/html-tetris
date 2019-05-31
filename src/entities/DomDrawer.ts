@@ -24,7 +24,7 @@ export class DomDrawer {
 
       this.renderedIndexes.set(index - 1, node);
 
-      this.traverseNodes(deepIndex + 1, node);
+      this.traverseNodes(deepIndex + 4, node);
 
       if (!node.isCollapsed) {
         const closedTag = this.getCloseTag(node);

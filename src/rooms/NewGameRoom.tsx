@@ -50,7 +50,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
       this.setState({
         style: this.getRandomStyle()
       })
-    }, 2000);
+    }, 5000);
 
     this.dom.affectedLines$
       .pipe(
