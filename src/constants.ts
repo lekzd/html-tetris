@@ -2,7 +2,7 @@ import {SymbolType} from "./entities/SymbolType";
 import {color} from "./utils/color";
 
 export const HEIGHT = 32;
-export const WIDTH = 53;
+export const WIDTH = 80;
 export const CELL_HEIGHT = 25;
 export const CELL_WIDTH = 15;
 
@@ -16,6 +16,8 @@ export const NUMBERS_BG_COLOR = color('#474b47');
 export const PLAYER_COLOR = color('#FFFFFF');
 
 export const COLOR_MAP = {
+  [SymbolType.BACKGROUND]: color('#272822'),
+  [SymbolType.HIGHLIGHT]: color('#1e1d1e'),
   [SymbolType.UNKNOWN]: color('#FFFFFF'),
   [SymbolType.CONST]: color('#f1efe2'),
   [SymbolType.TAG]: color('#dd2568'),

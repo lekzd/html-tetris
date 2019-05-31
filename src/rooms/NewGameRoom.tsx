@@ -9,10 +9,14 @@ import {Player} from "../molecules/PLayer";
 import {KeyBoardInput} from "../entities/KeyBoardInput";
 import {Rectangle} from "../atoms/Rectangle";
 import {LineNumbers} from '../molecules/LineNumbers';
+import {IStyle, StyleContext} from "../entities/StyleContext";
+import {COLOR_STYLES} from "../colorStyles";
+import {SymbolType} from "../entities/SymbolType";
 
 interface IProps {}
 
 interface IState {
+  style: IStyle;
   lines: string[];
   affectedLines: number[];
 
@@ -26,13 +30,27 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
   private dom = new Dom();
 
   state = {
+    style: COLOR_STYLES.Solarized,
     lines: [],
     affectedLines: [],
     leftOffset: 0,
     topOffset: 0,
   };
 
+  getRandomStyle(): IStyle {
+    const keys = Object.keys(COLOR_STYLES);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)] as keyof typeof COLOR_STYLES;
+
+    return COLOR_STYLES[randomKey];
+  }
+
   componentWillMount() {
+
+    setInterval(() => {
+      this.setState({
+        style: this.getRandomStyle()
+      })
+    }, 2000);
 
     this.dom.affectedLines$
       .pipe(
@@ -66,37 +84,54 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
   render() {
     return (
-      <Container>
-        <Player
-          dom={this.dom}
-          input$={this.keyBoardInput$}
-        />
+      <StyleContext.Provider value={this.state.style}>
+        <Container>
 
-        {
-          this.state.affectedLines.map(index => (
-            <Rectangle
-              key={index}
-              x={0}
-              y={(index + this.state.topOffset) * CELL_HEIGHT}
-              width={WIDTH * CELL_WIDTH}
-              height={CELL_HEIGHT}
-              fill={HIGHLIGHT_COLOR}
-            />
-          ))
-        }
+          <StyleContext.Consumer>
+            {style =>
+              <Rectangle
+                x={0}
+                y={0}
+                width={WIDTH * CELL_WIDTH}
+                height={HEIGHT * CELL_HEIGHT}
+                fill={style[SymbolType.BACKGROUND]}
+              />
+            }
+          </StyleContext.Consumer>
 
-        <LineNumbers
-          lines={this.state.lines}
-          leftOffset={this.state.leftOffset}
-          topOffset={this.state.topOffset}
-        />
+          <Player
+            dom={this.dom}
+            input$={this.keyBoardInput$}
+          />
 
-        <CodeLines
-          lines={this.state.lines}
-          leftOffset={this.state.leftOffset}
-          topOffset={this.state.topOffset}
-        />
-      </Container>
+          <StyleContext.Consumer>
+            {style =>
+              this.state.affectedLines.map(index => (
+                <Rectangle
+                  key={index}
+                  x={0}
+                  y={(index + this.state.topOffset) * CELL_HEIGHT}
+                  width={WIDTH * CELL_WIDTH}
+                  height={CELL_HEIGHT}
+                  fill={style[SymbolType.HIGHLIGHT]}
+                />
+              ))
+            }
+          </StyleContext.Consumer>
+
+          <LineNumbers
+            lines={this.state.lines}
+            leftOffset={this.state.leftOffset}
+            topOffset={this.state.topOffset}
+          />
+
+          <CodeLines
+            lines={this.state.lines}
+            leftOffset={this.state.leftOffset}
+            topOffset={this.state.topOffset}
+          />
+        </Container>
+      </StyleContext.Provider>
     );
   }
 }

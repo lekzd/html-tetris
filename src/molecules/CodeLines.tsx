@@ -1,9 +1,10 @@
-import React, {Fragment, PureComponent} from "react";
+import React, {PureComponent} from "react";
 import {Letter} from "../atoms/Letter";
-import {CELL_HEIGHT, CELL_WIDTH, COLOR_MAP, HEIGHT, WIDTH} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, WIDTH} from "../constants";
 import {SymbolType} from "../entities/SymbolType";
 import {Grid} from "../utils/Grid";
 import {parseHTMLStr} from "../utils/parseHTMLStr";
+import {StyleContext} from "../entities/StyleContext";
 
 interface IProps {
   lines: string[];
@@ -69,19 +70,20 @@ export class CodeLines extends PureComponent<IProps, IState> {
 
   render() {
     return (
-      <Fragment>
-        {
+      <StyleContext.Consumer>
+        {style =>
           this.state.lines.map(({symbol, symbolType}, x, y) => (
             <Letter
               key={`${x}.${y}`}
               x={x * CELL_WIDTH}
               y={y * CELL_HEIGHT}
-              color={COLOR_MAP[symbolType]}
+              color={style[symbolType]}
               text={symbol}
+
             />
           ))
         }
-      </Fragment>
+      </StyleContext.Consumer>
     )
   }
 }

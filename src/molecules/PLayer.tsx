@@ -39,15 +39,15 @@ export class Player extends PureComponent<IProps, IState> {
   state = {
     state: Command.IDLE,
     text: RANDOM_TAGS[Math.floor(Math.random() * RANDOM_TAGS.length)],
-    x: 0,
-    oldX: 0,
+    x: WIDTH >> 1,
+    oldX: WIDTH >> 1,
     y: 0,
     oldY: 0,
   };
 
   private reSpawn() {
-    const x = 2;
-    const oldX = 2;
+    const x = WIDTH >> 1;
+    const oldX = WIDTH >> 1;
     const y = 0;
     const oldY = 0;
     const state = Command.BOTTOM;
