@@ -4,7 +4,7 @@ import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {Dom} from "../entities/Dom";
 import {CodeLines} from "../molecules/CodeLines";
-import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, HIGHLIGHT_COLOR, NUMBERS_COLOR, WIDTH} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, HIGHLIGHT_COLOR, WIDTH} from "../constants";
 import {Player} from "../molecules/PLayer";
 import {KeyBoardInput} from "../entities/KeyBoardInput";
 import {Rectangle} from "../atoms/Rectangle";

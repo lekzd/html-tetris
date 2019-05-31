@@ -1,4 +1,4 @@
-import React, {Fragment, PureComponent} from "react";
+import React from "react";
 import {Container} from "react-pixi-fiber";
 import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, NUMBERS_BG_COLOR, NUMBERS_COLOR} from "../constants";
 import {Word} from '../atoms/Word';
