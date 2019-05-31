@@ -1,12 +1,12 @@
 import React from "react";
 import {Text, TextProperties} from 'react-pixi-fiber';
+import {FONT, FONT_WEIGHT} from '../constants';
 
 interface IProps extends Partial<TextProperties> {
   color: number;
 }
 
 const CENTER_ANCHOR = '0,0' as any;
-const FONT = 'PT Mono, Monospaced, monospace';
 
 export const Letter: React.FC<IProps> = props => (
   <Text
@@ -14,7 +14,7 @@ export const Letter: React.FC<IProps> = props => (
     anchor={CENTER_ANCHOR}
     style={{
       fill: props.color,
-      fontWeight: 600,
+      fontWeight: FONT_WEIGHT,
       fontFamily: FONT,
     }}
   />

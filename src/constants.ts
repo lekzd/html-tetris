@@ -6,9 +6,13 @@ export const WIDTH = 53;
 export const CELL_HEIGHT = 25;
 export const CELL_WIDTH = 15;
 
+export const FONT = 'PT Mono, Monospaced, monospace';
+export const FONT_WEIGHT = 600;
+
 export const BACKGROUND_COLOR = color('#272822');
 export const HIGHLIGHT_COLOR = color('#1e1d1e');
 export const NUMBERS_COLOR = color('#899089');
+export const NUMBERS_BG_COLOR = color('#474b47');
 export const PLAYER_COLOR = color('#FFFFFF');
 
 export const COLOR_MAP = {

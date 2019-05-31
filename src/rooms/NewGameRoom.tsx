@@ -8,7 +8,7 @@ import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, HIGHLIGHT_COLOR, NUMBERS_COLOR, WIDTH} 
 import {Player} from "../molecules/PLayer";
 import {KeyBoardInput} from "../entities/KeyBoardInput";
 import {Rectangle} from "../atoms/Rectangle";
-import {Word} from "../atoms/Word";
+import {LineNumbers} from '../molecules/LineNumbers';
 
 interface IProps {}
 
@@ -85,17 +85,11 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
           ))
         }
 
-        {
-          this.state.lines.map((line, index) => (
-            <Word
-              key={index}
-              x={0}
-              y={(index + this.state.topOffset) * CELL_HEIGHT}
-              text={index.toString().padStart(2, ' ')}
-              fill={NUMBERS_COLOR}
-            />
-          ))
-        }
+        <LineNumbers
+          lines={this.state.lines}
+          leftOffset={this.state.leftOffset}
+          topOffset={this.state.topOffset}
+        />
 
         <CodeLines
           lines={this.state.lines}
