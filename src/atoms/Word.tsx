@@ -1,7 +1,6 @@
 import React, {PureComponent} from "react";
 import {Letter} from "./Letter";
 import {CELL_WIDTH} from "../constants";
-import {color} from "../utils/color";
 import {Container, ContainerProperties} from "react-pixi-fiber";
 
 interface IProps extends ContainerProperties {

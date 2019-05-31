@@ -4,7 +4,6 @@ import {
   CELL_WIDTH,
   Command,
   HEIGHT,
-  NUMBERS_COLOR,
   PLAYER_COLOR,
   RANDOM_TAGS,
   RANDOM_TEXTS,

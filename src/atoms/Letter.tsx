@@ -6,6 +6,7 @@ interface IProps extends Partial<TextProperties> {
 }
 
 const CENTER_ANCHOR = '0,0' as any;
+const FONT = 'PT Mono, Monospaced, monospace';
 
 export const Letter: React.FC<IProps> = props => (
   <Text
@@ -13,7 +14,8 @@ export const Letter: React.FC<IProps> = props => (
     anchor={CENTER_ANCHOR}
     style={{
       fill: props.color,
-      fontFamily: 'monospace',
+      fontWeight: 600,
+      fontFamily: FONT,
     }}
   />
 );
