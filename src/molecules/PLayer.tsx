@@ -207,7 +207,7 @@ export class Player extends PureComponent<IProps, IState> {
       case Command.SHIFT_LEFT:
         oldY = y;
         oldX = x;
-        this.tryHorizontalMove(-5);
+        this.tryHorizontalMove(-7);
         this.setState({state: Command.LEFT});
         break;
 
@@ -219,7 +219,7 @@ export class Player extends PureComponent<IProps, IState> {
       case Command.SHIFT_RIGHT:
         oldY = y;
         oldX = x;
-        this.tryHorizontalMove(+5);
+        this.tryHorizontalMove(+7);
         this.setState({state: Command.RIGHT});
         break;
     }
