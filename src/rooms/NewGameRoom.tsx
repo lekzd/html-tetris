@@ -87,17 +87,13 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
       <StyleContext.Provider value={this.state.style}>
         <Container>
 
-          <StyleContext.Consumer>
-            {style =>
-              <Rectangle
-                x={0}
-                y={0}
-                width={WIDTH * CELL_WIDTH}
-                height={HEIGHT * CELL_HEIGHT}
-                fill={style[SymbolType.BACKGROUND]}
-              />
-            }
-          </StyleContext.Consumer>
+          <Rectangle
+            x={0}
+            y={0}
+            width={WIDTH * CELL_WIDTH}
+            height={HEIGHT * CELL_HEIGHT}
+            fill={this.state.style[SymbolType.BACKGROUND]}
+          />
 
           <Player
             dom={this.dom}

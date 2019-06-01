@@ -1,4 +1,4 @@
-import React, {Fragment, PureComponent} from 'react';
+import React, {PureComponent} from 'react';
 import {Container} from 'react-pixi-fiber';
 import {Observable, Subject} from "rxjs";
 import {filter, takeUntil} from "rxjs/operators";
@@ -7,7 +7,7 @@ import {Rectangle} from "../atoms/Rectangle";
 import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
 import {Word} from "../atoms/Word";
-import {IStyle} from "../entities/StyleContext";
+import {IStyle, StyleContext} from "../entities/StyleContext";
 
 interface IProps {
   input$: Observable<Command>;
@@ -71,20 +71,27 @@ export class ChooseStyleSelect extends PureComponent<IProps, IState> {
     const styles = Object.keys(COLOR_STYLES) as StyleName[];
 
     return (
-      <Fragment>
-        {styles.map((name, index) => (
-          <Container key={index} y={(index - this.state.offset) * CELL_HEIGHT * 4}>
-            <Rectangle
-              x={0}
-              y={0}
-              width={16 * CELL_WIDTH}
-              height={3 * CELL_HEIGHT}
-              fill={COLOR_STYLES[name][SymbolType.BACKGROUND]}
-            />
-            <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={name} fill={COLOR_STYLES[name][SymbolType.TAG]}/>
-          </Container>
-        ))}
-      </Fragment>
+      <Container>
+        <StyleContext.Consumer>
+          {style => (
+            <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={'Style:'} fill={style[SymbolType.TAG]}/>
+          )}
+        </StyleContext.Consumer>
+        <Container x={10 * CELL_WIDTH}>
+          {styles.map((name, index) => (
+            <Container key={index} y={(index - this.state.offset) * CELL_HEIGHT * 4}>
+              <Rectangle
+                x={0}
+                y={0}
+                width={16 * CELL_WIDTH}
+                height={3 * CELL_HEIGHT}
+                fill={COLOR_STYLES[name][SymbolType.BACKGROUND]}
+              />
+              <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={name} fill={COLOR_STYLES[name][SymbolType.TAG]}/>
+            </Container>
+          ))}
+        </Container>
+      </Container>
     )
   }
 }
