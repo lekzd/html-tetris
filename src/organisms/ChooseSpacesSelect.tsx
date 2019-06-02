@@ -3,7 +3,6 @@ import {Container} from 'react-pixi-fiber';
 import {Observable, Subject} from "rxjs";
 import {filter, takeUntil} from "rxjs/operators";
 import {CELL_HEIGHT, CELL_WIDTH, Command} from "../constants";
-import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
 import {Word} from "../atoms/Word";
 import {StyleContext} from "../entities/StyleContext";

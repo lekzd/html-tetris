@@ -7,9 +7,8 @@ import {CELL_HEIGHT, CELL_WIDTH, WIDTH} from "../constants";
 import {SymbolType} from "../entities/SymbolType";
 import {Rectangle} from "../atoms/Rectangle";
 import {color} from "../utils/color";
-import {Word} from "../atoms/Word";
-import {Beak} from "../atoms/Beak";
 import {BeakWord} from "../molecules/BeakWorld";
+import {Filter} from "../atoms/Filter";
 
 interface IProps {
   lines: string[];
@@ -37,12 +36,14 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
           topOffset={topOffset}
         />
 
-        <CodeLines
-          linesHeight={linesHeight}
-          lines={lines}
-          leftOffset={leftOffset}
-          topOffset={topOffset}
-        />
+        <Filter shader={style.finalShader}>
+          <CodeLines
+            linesHeight={linesHeight}
+            lines={lines}
+            leftOffset={leftOffset}
+            topOffset={topOffset}
+          />
+        </Filter>
 
         <Rectangle
           x={0}

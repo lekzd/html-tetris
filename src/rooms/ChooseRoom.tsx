@@ -1,15 +1,13 @@
 import React, {PureComponent} from 'react';
 import {Container} from 'react-pixi-fiber';
 import {Subject} from "rxjs";
-import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, WIDTH} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH} from "../constants";
 import {KeyBoardInput} from "../entities/KeyBoardInput";
 import {Rectangle} from "../atoms/Rectangle";
 import {IStyle, StyleContext} from "../entities/StyleContext";
 import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
-import {Word} from "../atoms/Word";
 import {ChooseStyleSelect} from "../organisms/ChooseStyleSelect";
-import {CodeLines} from "../molecules/CodeLines";
 import {ChooseSpacesSelect} from "../organisms/ChooseSpacesSelect";
 import {CodeView} from "../organisms/CodeView";
 
@@ -70,6 +68,7 @@ export class ChooseRoom extends PureComponent<IProps, IState> {
           <Container x={40 * CELL_WIDTH} y={10 * CELL_HEIGHT}>
             <ChooseSpacesSelect onChange={this.onSpacesChange} input$={this.styleInput$}/>
           </Container>
+
 
           <CodeView
             lines={this.state.lines}

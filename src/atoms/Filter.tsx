@@ -1,6 +1,7 @@
 import React, {PureComponent} from "react";
 import {ContainerProperties, Container} from 'react-pixi-fiber';
 import * as PIXI from 'pixi.js';
+import commonVertex from '../shaders/common.vert';
 
 interface IProps extends Partial<ContainerProperties> {
   shader: string;
@@ -17,7 +18,13 @@ export class Filter extends PureComponent<IProps, IState> {
   };
 
   componentWillMount() {
-    const filter = new PIXI.Filter(undefined, this.props.shader, {});
+    const filter = new PIXI.Filter(commonVertex, this.props.shader, {});
+
+    this.setState({filters: [filter]})
+  }
+
+  componentWillReceiveProps({shader}: IProps) {
+    const filter = new PIXI.Filter(commonVertex, shader, {});
 
     this.setState({filters: [filter]})
   }

@@ -5,6 +5,7 @@ import {SymbolType} from "../entities/SymbolType";
 import {Grid} from "../utils/Grid";
 import {parseHTMLStr} from "../utils/parseHTMLStr";
 import {StyleContext} from "../entities/StyleContext";
+import {Filter} from "../atoms/Filter";
 
 interface IProps {
   lines: string[];

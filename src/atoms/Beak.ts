@@ -14,7 +14,7 @@ const TYPE = "Beak";
 export const behavior = {
   customDisplayObject: () => new PIXI.Graphics(),
   customApplyProps: function(instance: PIXI.Graphics, oldProps: IProps, newProps: IProps) {
-    const { fill, x, y, width, height } = newProps;
+    const { fill, width, height } = newProps;
     instance.clear();
     instance.beginFill(fill);
 

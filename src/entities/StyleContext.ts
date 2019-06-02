@@ -3,6 +3,7 @@ import {COLOR_STYLES} from "../colorStyles";
 
 export type IStyle = {
   name: string;
+  finalShader: string;
   [key: number]: number;
 }
 
