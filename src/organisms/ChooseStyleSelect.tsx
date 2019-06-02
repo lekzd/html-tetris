@@ -87,7 +87,7 @@ export class ChooseStyleSelect extends PureComponent<IProps, IState> {
                 height={3 * CELL_HEIGHT}
                 fill={COLOR_STYLES[name][SymbolType.BACKGROUND]}
               />
-              <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={name} fill={COLOR_STYLES[name][SymbolType.TAG]}/>
+              <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={COLOR_STYLES[name].name} fill={COLOR_STYLES[name][SymbolType.TAG]}/>
             </Container>
           ))}
         </Container>

@@ -11,6 +11,7 @@ import {Word} from "../atoms/Word";
 import {ChooseStyleSelect} from "../organisms/ChooseStyleSelect";
 import {CodeLines} from "../molecules/CodeLines";
 import {ChooseSpacesSelect} from "../organisms/ChooseSpacesSelect";
+import {CodeView} from "../organisms/CodeView";
 
 interface IProps {}
 
@@ -53,13 +54,6 @@ export class ChooseRoom extends PureComponent<IProps, IState> {
     return (
       <StyleContext.Provider value={this.state.style}>
         <Container>
-          <Rectangle
-            x={0}
-            y={0}
-            width={WIDTH * CELL_WIDTH}
-            height={HEIGHT * CELL_HEIGHT}
-            fill={this.state.style[SymbolType.BACKGROUND]}
-          />
 
           <Rectangle
             x={9 * CELL_WIDTH}
@@ -77,26 +71,11 @@ export class ChooseRoom extends PureComponent<IProps, IState> {
             <ChooseSpacesSelect onChange={this.onSpacesChange} input$={this.styleInput$}/>
           </Container>
 
-          <Rectangle
-            x={0}
-            y={0}
-            width={WIDTH * CELL_WIDTH}
-            height={5 * CELL_HEIGHT}
-            fill={this.state.style[SymbolType.BACKGROUND]}
-          />
-
-          <Rectangle
-            x={0}
-            y={5 * CELL_HEIGHT}
-            width={WIDTH * CELL_WIDTH}
-            height={CELL_HEIGHT}
-            fill={this.state.style[SymbolType.HIGHLIGHT]}
-          />
-
-          <CodeLines
+          <CodeView
             lines={this.state.lines}
-            leftOffset={2}
+            leftOffset={3}
             topOffset={2}
+            linesHeight={7}
           />
 
         </Container>

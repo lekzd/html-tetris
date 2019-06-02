@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import {Stage} from 'react-pixi-fiber';
-import {NewGameRoom} from "./rooms/NewGameRoom";
 import {BACKGROUND_COLOR} from "./constants";
 import {ChooseRoom} from "./rooms/ChooseRoom";
 

@@ -2,6 +2,7 @@ import React from "react";
 import {COLOR_STYLES} from "../colorStyles";
 
 export type IStyle = {
+  name: string;
   [key: number]: number;
 }
 

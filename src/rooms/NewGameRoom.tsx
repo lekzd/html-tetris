@@ -3,15 +3,14 @@ import {Container} from 'react-pixi-fiber';
 import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {Dom} from "../entities/Dom";
-import {CodeLines} from "../molecules/CodeLines";
-import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, HIGHLIGHT_COLOR, WIDTH} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, WIDTH} from "../constants";
 import {Player} from "../molecules/PLayer";
 import {KeyBoardInput} from "../entities/KeyBoardInput";
 import {Rectangle} from "../atoms/Rectangle";
-import {LineNumbers} from '../molecules/LineNumbers';
 import {IStyle, StyleContext} from "../entities/StyleContext";
 import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
+import {CodeView} from "../organisms/CodeView";
 
 interface IProps {}
 
@@ -95,11 +94,6 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
             fill={this.state.style[SymbolType.BACKGROUND]}
           />
 
-          <Player
-            dom={this.dom}
-            input$={this.keyBoardInput$}
-          />
-
           <StyleContext.Consumer>
             {style =>
               this.state.affectedLines.map(index => (
@@ -115,17 +109,18 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
             }
           </StyleContext.Consumer>
 
-          <LineNumbers
+          <CodeView
             lines={this.state.lines}
             leftOffset={this.state.leftOffset}
             topOffset={this.state.topOffset}
+            linesHeight={HEIGHT}
           />
 
-          <CodeLines
-            lines={this.state.lines}
-            leftOffset={this.state.leftOffset}
-            topOffset={this.state.topOffset}
+          <Player
+            dom={this.dom}
+            input$={this.keyBoardInput$}
           />
+
         </Container>
       </StyleContext.Provider>
     );

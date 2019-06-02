@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 import {Letter} from "../atoms/Letter";
-import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, WIDTH} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH, WIDTH} from "../constants";
 import {SymbolType} from "../entities/SymbolType";
 import {Grid} from "../utils/Grid";
 import {parseHTMLStr} from "../utils/parseHTMLStr";
@@ -10,6 +10,7 @@ interface IProps {
   lines: string[];
   leftOffset: number;
   topOffset: number;
+  linesHeight: number;
 }
 
 interface IState {
@@ -37,11 +38,11 @@ interface ICell {
 export class CodeLines extends PureComponent<IProps, IState> {
 
   state = {
-    lines: new Grid<ICell>(Math.max(WIDTH, HEIGHT)),
+    lines: new Grid<ICell>(Math.max(WIDTH, this.props.linesHeight)),
   };
 
   private setLinesToState(lines: string[], leftOffset: number, topOffset: number) {
-    const newLines = new Grid<ICell>(Math.max(WIDTH, HEIGHT));
+    const newLines = new Grid<ICell>(Math.max(WIDTH, this.props.linesHeight));
 
     lines.forEach((line, top) => {
       parseHTMLStr(line, (symbolType, symbol, index) => {

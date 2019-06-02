@@ -3,7 +3,9 @@ import {color} from "./utils/color";
 
 export const COLOR_STYLES = {
   Monokai: {
+    name: 'Monokai',
     [SymbolType.BACKGROUND]: color('#272822'),
+    [SymbolType.NUMBERS_BG]: color('#33352c'),
     [SymbolType.HIGHLIGHT]: color('#1e1d1e'),
     [SymbolType.UNKNOWN]: color('#FFFFFF'),
     [SymbolType.CONST]: color('#f1efe2'),
@@ -13,7 +15,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#9abd06'),
   },
   Far: {
+    name: 'Far',
     [SymbolType.BACKGROUND]: color('#000080'),
+    [SymbolType.NUMBERS_BG]: color('#000080'),
     [SymbolType.HIGHLIGHT]: color('#00043f'),
     [SymbolType.UNKNOWN]: color('#FFFFFF'),
     [SymbolType.CONST]: color('#00ffff'),
@@ -23,7 +27,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#00ffff'),
   },
   Gruvbox: {
+    name: 'Gruvbox',
     [SymbolType.BACKGROUND]: color('#282828'),
+    [SymbolType.NUMBERS_BG]: color('#33352c'),
     [SymbolType.HIGHLIGHT]: color('#1a1a1a'),
     [SymbolType.UNKNOWN]: color('#FFFFFF'),
     [SymbolType.CONST]: color('#8ec07c'),
@@ -33,7 +39,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#edbd2f'),
   },
   Hopscotch: {
+    name: 'Hopscotch',
     [SymbolType.BACKGROUND]: color('#322931'),
+    [SymbolType.NUMBERS_BG]: color('#443843'),
     [SymbolType.HIGHLIGHT]: color('#201a1f'),
     [SymbolType.UNKNOWN]: color('#9bb5ab'),
     [SymbolType.CONST]: color('#dd4646'),
@@ -43,7 +51,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#bc4646'),
   },
   Lightfair: {
+    name: 'Lightfair',
     [SymbolType.BACKGROUND]: color('#550000'),
+    [SymbolType.NUMBERS_BG]: color('#652d2c'),
     [SymbolType.HIGHLIGHT]: color('#340000'),
     [SymbolType.UNKNOWN]: color('#4b4435'),
     [SymbolType.CONST]: color('#778885'),
@@ -53,7 +63,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#778899'),
   },
   Nord: {
+    name: 'Nord',
     [SymbolType.BACKGROUND]: color('#2e3440'),
+    [SymbolType.NUMBERS_BG]: color('#3b4252'),
     [SymbolType.HIGHLIGHT]: color('#22262f'),
     [SymbolType.UNKNOWN]: color('#b7dede'),
     [SymbolType.CONST]: color('#81a1b9'),
@@ -63,7 +75,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#82bcbb'),
   },
   Qtcreator: {
+    name: 'Qtcreator',
     [SymbolType.BACKGROUND]: color('#000000'),
+    [SymbolType.NUMBERS_BG]: color('#000000'),
     [SymbolType.HIGHLIGHT]: color('#1d1d1d'),
     [SymbolType.UNKNOWN]: color('#aaaaaa'),
     [SymbolType.CONST]: color('#84aa9a'),
@@ -73,7 +87,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#aaaaaa'),
   },
   Solarized: {
+    name: 'Solarized',
     [SymbolType.BACKGROUND]: color('#002b36'),
+    [SymbolType.NUMBERS_BG]: color('#003948'),
     [SymbolType.HIGHLIGHT]: color('#001c23'),
     [SymbolType.UNKNOWN]: color('#61948a'),
     [SymbolType.CONST]: color('#83948a'),
@@ -83,7 +99,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#b58900'),
   },
   XT256: {
+    name: 'XT 256',
     [SymbolType.BACKGROUND]: color('#000000'),
+    [SymbolType.NUMBERS_BG]: color('#000000'),
     [SymbolType.HIGHLIGHT]: color('#1d1d1d'),
     [SymbolType.UNKNOWN]: color('#eaeaea'),
     [SymbolType.CONST]: color('#000fff'),
@@ -93,7 +111,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#000fff'),
   },
   Github: {
+    name: 'Github',
     [SymbolType.BACKGROUND]: color('#f8f8f8'),
+    [SymbolType.NUMBERS_BG]: color('#f8f8f8'),
     [SymbolType.HIGHLIGHT]: color('#a4a4a4'),
     [SymbolType.UNKNOWN]: color('#333333'),
     [SymbolType.CONST]: color('#000fff'),
@@ -103,7 +123,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#008080'),
   },
   Dracula: {
+    name: 'Dracula',
     [SymbolType.BACKGROUND]: color('#282a36'),
+    [SymbolType.NUMBERS_BG]: color('#313342'),
     [SymbolType.HIGHLIGHT]: color('#181921'),
     [SymbolType.UNKNOWN]: color('#d7f8e6'),
     [SymbolType.CONST]: color('#f8f8d4'),
@@ -113,7 +135,9 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#f8f8f2'),
   },
   GardenOfEden: {
+    name: 'Garden Of Eden',
     [SymbolType.BACKGROUND]: color('#005050'),
+    [SymbolType.NUMBERS_BG]: color('#005050'),
     [SymbolType.HIGHLIGHT]: color('#003535'),
     [SymbolType.UNKNOWN]: color('#e1e2dc'),
     [SymbolType.CONST]: color('#5faeb4'),
@@ -123,13 +147,39 @@ export const COLOR_STYLES = {
     [SymbolType.ATTR]: color('#00c1c5'),
   },
   Matrix: {
+    name: 'Matrix',
     [SymbolType.BACKGROUND]: color('#000000'),
+    [SymbolType.NUMBERS_BG]: color('#000000'),
     [SymbolType.HIGHLIGHT]: color('#123212'),
     [SymbolType.UNKNOWN]: color('#22571c'),
     [SymbolType.CONST]: color('#3fc554'),
     [SymbolType.TAG]: color('#3fc554'),
     [SymbolType.VALUE]: color('#3fc554'),
-    [SymbolType.EQUAl]: color('#22571c'),
-    [SymbolType.ATTR]: color('#22571c'),
+    [SymbolType.EQUAl]: color('#acd832'),
+    [SymbolType.ATTR]: color('#acd832'),
+  },
+  Strawberry: {
+    name: 'Strawberry',
+    [SymbolType.BACKGROUND]: color('#ffebf0'),
+    [SymbolType.NUMBERS_BG]: color('#e0c5cc'),
+    [SymbolType.HIGHLIGHT]: color('#d46a84'),
+    [SymbolType.UNKNOWN]: color('#6b4851'),
+    [SymbolType.CONST]: color('#d97a91'),
+    [SymbolType.TAG]: color('#f55050'),
+    [SymbolType.VALUE]: color('#219e21'),
+    [SymbolType.EQUAl]: color('#e06a26'),
+    [SymbolType.ATTR]: color('#e06a26'),
+  },
+  ColorsOff: {
+    name: 'Colors Off',
+    [SymbolType.BACKGROUND]: color('#313131'),
+    [SymbolType.NUMBERS_BG]: color('#313131'),
+    [SymbolType.HIGHLIGHT]: color('#3e3e3e'),
+    [SymbolType.UNKNOWN]: color('#6f6962'),
+    [SymbolType.CONST]: color('#b4b2b2'),
+    [SymbolType.TAG]: color('#b4b2b2'),
+    [SymbolType.VALUE]: color('#b4b2b2'),
+    [SymbolType.EQUAl]: color('#b4b2b2'),
+    [SymbolType.ATTR]: color('#b4b2b2'),
   }
 };
