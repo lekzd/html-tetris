@@ -7,7 +7,7 @@ export const TERMINAL_THEME = {
   backgroundText: color('#6b8092'),
   foreground: color('#4c566a'),
   tab: color('#3b4251'),
-  accent: color('#88c0d0'),
+  accent: color('#63add0'),
   foregroundText: color('#dbd6c5'),
 };
 

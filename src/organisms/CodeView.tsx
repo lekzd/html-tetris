@@ -76,6 +76,13 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
           height={CELL_HEIGHT}
           fill={style[SymbolType.HIGHLIGHT]}
         />
+
+        <BeakWord
+          x={-CELL_WIDTH}
+          y={(linesHeight - 1) * CELL_HEIGHT}
+          fill={TERMINAL_THEME.accent}
+          text={'INSERT'}
+        />
       </Container>
     }
   </StyleContext.Consumer>

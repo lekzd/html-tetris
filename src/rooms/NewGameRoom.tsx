@@ -11,7 +11,7 @@ import {IStyle, StyleContext} from "../entities/StyleContext";
 import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
 import {CodeView} from "../organisms/CodeView";
-import {GameRoomRoute, router$} from "../App";
+import {GameRoomRoute, router$} from "../routes";
 
 interface IProps {}
 

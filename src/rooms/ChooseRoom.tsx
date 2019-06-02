@@ -10,9 +10,8 @@ import {ChooseStyleSelect} from "../organisms/ChooseStyleSelect";
 import {ChooseSpacesSelect} from "../organisms/ChooseSpacesSelect";
 import {CodeView} from "../organisms/CodeView";
 import {takeUntil, filter, map} from "rxjs/operators";
-import {Word} from "../atoms/Word";
 import {Button} from "../organisms/Button";
-import {router$} from "../App";
+import {router$} from "../routes";
 import {NewGameRoom} from "./NewGameRoom";
 
 interface IProps {}

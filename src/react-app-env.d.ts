@@ -11,3 +11,11 @@ module '*.vert' {
 
   export default module;
 }
+
+declare module 'qr-encoder' {
+  const module: {
+    encode: (str: string, version: number) => number[][];
+  };
+
+  export default module;
+}

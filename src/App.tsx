@@ -1,11 +1,8 @@
 import React, {PureComponent} from 'react';
 import './App.css';
 import {Stage} from 'react-pixi-fiber';
-import {ChooseRoom} from "./rooms/ChooseRoom";
 import {TERMINAL_THEME} from "./colorStyles";
-import {BehaviorSubject} from "rxjs";
-import {NewGameRoom} from "./rooms/NewGameRoom";
-import {IStyle} from "./entities/StyleContext";
+import {router$} from "./routes";
 
 const height = 800;
 const width = 1200;
@@ -14,25 +11,6 @@ const OPTIONS = {
   autoResize: true,
   resolution: Math.max(window.devicePixelRatio, 2) || 1,
 };
-
-export type ChooseRoomRoute = [
-  typeof ChooseRoom,
-  {
-    name: string;
-  }
-]
-
-export type GameRoomRoute = [
-  typeof NewGameRoom,
-  {
-    style: IStyle;
-    spaces: number;
-  }
-]
-
-type routes = ChooseRoomRoute | GameRoomRoute;
-
-export const router$ = new BehaviorSubject<routes>([ChooseRoom, {name: ''}]);
 
 export class App extends PureComponent {
   state = {
