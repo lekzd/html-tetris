@@ -11,9 +11,10 @@ interface IProps {
   leftOffset: number;
   topOffset: number;
   linesHeight: number;
+  activeIndex: number;
 }
 
-export const LineNumbers: React.FC<IProps> = ({lines, leftOffset, topOffset, linesHeight}) => (
+export const LineNumbers: React.FC<IProps> = ({lines, leftOffset, topOffset, linesHeight, activeIndex}) => (
 
   <StyleContext.Consumer>
     {style =>
@@ -26,6 +27,16 @@ export const LineNumbers: React.FC<IProps> = ({lines, leftOffset, topOffset, lin
           fill={style[SymbolType.NUMBERS_BG]}
         />
 
+        {activeIndex > -1 &&
+          <Rectangle
+            x={0}
+            y={(activeIndex + topOffset) * CELL_HEIGHT}
+            width={leftOffset * CELL_WIDTH}
+            height={CELL_HEIGHT}
+            fill={NUMBERS_COLOR}
+          />
+        }
+
         {
           lines.map((line, index) => (
             <Word
@@ -33,7 +44,7 @@ export const LineNumbers: React.FC<IProps> = ({lines, leftOffset, topOffset, lin
               x={0}
               y={(index + topOffset) * CELL_HEIGHT}
               text={index.toString().padStart(2, ' ')}
-              fill={NUMBERS_COLOR}
+              fill={index === activeIndex ? style[SymbolType.NUMBERS_BG] : NUMBERS_COLOR}
             />
           ))
         }

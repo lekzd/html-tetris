@@ -15,9 +15,10 @@ interface IProps {
   linesHeight: number;
   leftOffset: number;
   topOffset: number;
+  activeIndex: number;
 }
 
-export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesHeight}) => (
+export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesHeight, activeIndex}) => (
   <StyleContext.Consumer>
     {style =>
       <Container>
@@ -34,6 +35,7 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
           lines={lines}
           leftOffset={leftOffset}
           topOffset={topOffset}
+          activeIndex={activeIndex}
         />
 
         <Filter shader={style.finalShader}>

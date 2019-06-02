@@ -60,7 +60,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
         setTimeout(() => {
           this.setState({affectedLines: []});
-        }, 1000);
+        }, 400);
 
       });
 
@@ -94,6 +94,14 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
             fill={this.state.style[SymbolType.BACKGROUND]}
           />
 
+          <CodeView
+            lines={this.state.lines}
+            leftOffset={this.state.leftOffset}
+            topOffset={this.state.topOffset}
+            linesHeight={HEIGHT}
+            activeIndex={-1}
+          />
+
           <StyleContext.Consumer>
             {style =>
               this.state.affectedLines.map(index => (
@@ -108,13 +116,6 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
               ))
             }
           </StyleContext.Consumer>
-
-          <CodeView
-            lines={this.state.lines}
-            leftOffset={this.state.leftOffset}
-            topOffset={this.state.topOffset}
-            linesHeight={HEIGHT}
-          />
 
           <Player
             dom={this.dom}

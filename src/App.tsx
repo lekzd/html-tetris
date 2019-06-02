@@ -3,6 +3,7 @@ import './App.css';
 import {Stage} from 'react-pixi-fiber';
 import {BACKGROUND_COLOR} from "./constants";
 import {ChooseRoom} from "./rooms/ChooseRoom";
+import {NewGameRoom} from "./rooms/NewGameRoom";
 
 const height = 800;
 const width = 1200;

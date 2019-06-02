@@ -75,6 +75,7 @@ export class ChooseRoom extends PureComponent<IProps, IState> {
             leftOffset={3}
             topOffset={2}
             linesHeight={7}
+            activeIndex={-1}
           />
 
         </Container>
