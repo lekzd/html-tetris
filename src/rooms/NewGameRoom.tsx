@@ -11,6 +11,7 @@ import {IStyle, StyleContext} from "../entities/StyleContext";
 import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
 import {CodeView} from "../organisms/CodeView";
+import {GameRoomRoute, router$} from "../App";
 
 interface IProps {}
 
@@ -28,8 +29,10 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
   private keyBoardInput$ = new KeyBoardInput();
   private dom = new Dom();
 
+  private routeParams = router$.value as GameRoomRoute;
+
   state = {
-    style: COLOR_STYLES.Solarized,
+    style: this.routeParams[1].style,
     lines: [],
     affectedLines: [],
     leftOffset: 0,
@@ -45,11 +48,11 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
   componentWillMount() {
 
-    setInterval(() => {
-      this.setState({
-        style: this.getRandomStyle()
-      })
-    }, 5000);
+    // setInterval(() => {
+    //   this.setState({
+    //     style: this.getRandomStyle()
+    //   })
+    // }, 5000);
 
     this.dom.affectedLines$
       .pipe(
@@ -60,7 +63,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
         setTimeout(() => {
           this.setState({affectedLines: []});
-        }, 400);
+        }, 200);
 
       });
 

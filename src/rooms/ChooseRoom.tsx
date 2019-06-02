@@ -1,33 +1,67 @@
 import React, {PureComponent} from 'react';
 import {Container} from 'react-pixi-fiber';
-import {Subject} from "rxjs";
-import {CELL_HEIGHT, CELL_WIDTH} from "../constants";
+import {merge, Subject} from "rxjs";
+import {CELL_HEIGHT, CELL_WIDTH, Command} from "../constants";
 import {KeyBoardInput} from "../entities/KeyBoardInput";
 import {Rectangle} from "../atoms/Rectangle";
 import {IStyle, StyleContext} from "../entities/StyleContext";
-import {COLOR_STYLES} from "../colorStyles";
-import {SymbolType} from "../entities/SymbolType";
+import {COLOR_STYLES, TERMINAL_THEME} from "../colorStyles";
 import {ChooseStyleSelect} from "../organisms/ChooseStyleSelect";
 import {ChooseSpacesSelect} from "../organisms/ChooseSpacesSelect";
 import {CodeView} from "../organisms/CodeView";
+import {takeUntil, filter, map} from "rxjs/operators";
+import {Word} from "../atoms/Word";
+import {Button} from "../organisms/Button";
+import {router$} from "../App";
+import {NewGameRoom} from "./NewGameRoom";
 
 interface IProps {}
 
 interface IState {
   style: IStyle;
+  spaces: number;
   focusedElement: number;
   lines: string[];
 }
 
-type StyleName = keyof typeof COLOR_STYLES;
-
 export class ChooseRoom extends PureComponent<IProps, IState> {
   private unmount$ = new Subject();
   private keyBoardInput$ = new KeyBoardInput();
-  private styleInput$ = this.keyBoardInput$.asObservable();
+
+  private leftInput$ = this.keyBoardInput$
+    .pipe(
+      takeUntil(this.unmount$),
+      filter(command => [Command.LEFT, Command.SHIFT_LEFT].includes(command)),
+      filter(() => this.state.focusedElement > 0),
+      map(() => this.state.focusedElement - 1)
+    );
+
+  private rightInput$ = this.keyBoardInput$
+    .pipe(
+      takeUntil(this.unmount$),
+      filter(command => [Command.RIGHT, Command.SHIFT_RIGHT].includes(command)),
+      filter(() => this.state.focusedElement < 2),
+      map(() => this.state.focusedElement + 1)
+    );
+
+  private styleInput$ = this.keyBoardInput$
+    .pipe(
+      filter(() => this.state.focusedElement === 0)
+    );
+
+  private spacesInput$ = this.keyBoardInput$
+    .pipe(
+      filter(() => this.state.focusedElement === 1)
+    );
+
+  private buttonInput$ = this.keyBoardInput$
+    .pipe(
+      filter(() => this.state.focusedElement === 2)
+    );
 
   state = {
     style: COLOR_STYLES.Monokai,
+    spaces: 1,
     focusedElement: 0,
     lines: [
       '<body>',
@@ -36,13 +70,33 @@ export class ChooseRoom extends PureComponent<IProps, IState> {
     ]
   };
 
+  onButtonActivate = () => {
+    const {style, spaces} = this.state;
+
+    router$.next([NewGameRoom, {style, spaces}]);
+  };
+
   onStyleChange = (style: IStyle) => {
     this.setState({style});
   };
 
   onSpacesChange = (spaces: number) => {
-    // this.setState({style});
+    this.setState({
+      spaces,
+      lines: [
+        '<body>',
+        `${[...Array(spaces)].join(' ')}<img src="src" alt="a11y" />`,
+        '</body>'
+      ]
+    });
   };
+
+  componentWillMount() {
+    merge(this.leftInput$, this.rightInput$)
+      .subscribe(focusedElement => {
+        this.setState({focusedElement});
+      });
+  }
 
   componentWillUnmount() {
     this.unmount$.next();
@@ -53,20 +107,41 @@ export class ChooseRoom extends PureComponent<IProps, IState> {
       <StyleContext.Provider value={this.state.style}>
         <Container>
 
-          <Rectangle
-            x={9 * CELL_WIDTH}
-            y={9 * CELL_HEIGHT}
-            width={29 * CELL_WIDTH}
-            height={5 * CELL_HEIGHT}
-            fill={this.state.style[SymbolType.HIGHLIGHT]}
-          />
-
-          <Container x={10 * CELL_WIDTH} y={10 * CELL_HEIGHT}>
+          <Container x={5 * CELL_WIDTH} y={10 * CELL_HEIGHT}>
+            {this.state.focusedElement === 0 && <Rectangle
+              x={-CELL_WIDTH}
+              y={-CELL_HEIGHT}
+              width={27 * CELL_WIDTH}
+              height={5 * CELL_HEIGHT}
+              fill={TERMINAL_THEME.foreground}
+            />}
             <ChooseStyleSelect onChange={this.onStyleChange} input$={this.styleInput$}/>
           </Container>
 
-          <Container x={40 * CELL_WIDTH} y={10 * CELL_HEIGHT}>
-            <ChooseSpacesSelect onChange={this.onSpacesChange} input$={this.styleInput$}/>
+          <Container x={35 * CELL_WIDTH} y={10 * CELL_HEIGHT}>
+            {this.state.focusedElement === 1 && <Rectangle
+              x={-CELL_WIDTH}
+              y={-CELL_HEIGHT}
+              width={15 * CELL_WIDTH}
+              height={5 * CELL_HEIGHT}
+              fill={TERMINAL_THEME.foreground}
+            />}
+            <ChooseSpacesSelect onChange={this.onSpacesChange} input$={this.spacesInput$}/>
+          </Container>
+
+          <Container x={55 * CELL_WIDTH} y={10 * CELL_HEIGHT}>
+            {this.state.focusedElement === 2 && <Rectangle
+              x={-CELL_WIDTH}
+              y={-CELL_HEIGHT}
+              width={10 * CELL_WIDTH}
+              height={5 * CELL_HEIGHT}
+              fill={TERMINAL_THEME.foreground}
+            />}
+            <Button
+              text={'GO'}
+              onActivate={this.onButtonActivate}
+              input$={this.buttonInput$}
+            />
           </Container>
 
 

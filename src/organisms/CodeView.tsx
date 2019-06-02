@@ -6,9 +6,9 @@ import {StyleContext} from "../entities/StyleContext";
 import {CELL_HEIGHT, CELL_WIDTH, WIDTH} from "../constants";
 import {SymbolType} from "../entities/SymbolType";
 import {Rectangle} from "../atoms/Rectangle";
-import {color} from "../utils/color";
 import {BeakWord} from "../molecules/BeakWorld";
 import {Filter} from "../atoms/Filter";
+import {TERMINAL_THEME} from "../colorStyles";
 
 interface IProps {
   lines: string[];
@@ -56,14 +56,14 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
         />
 
         <BeakWord
-          x={200}
+          x={CELL_WIDTH * 12}
           y={0}
-          fill={color('#cc427e')}
+          fill={TERMINAL_THEME.accent}
           text={style.name}
         />
 
         <BeakWord
-          x={0}
+          x={-CELL_WIDTH}
           y={0}
           fill={style[SymbolType.HIGHLIGHT]}
           text={'html-tetris'}

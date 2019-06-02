@@ -1,4 +1,3 @@
-import {SymbolType} from "./entities/SymbolType";
 import {color} from "./utils/color";
 
 export const HEIGHT = 32;
@@ -11,19 +10,7 @@ export const FONT_WEIGHT = 600;
 
 export const BACKGROUND_COLOR = color('#272822');
 export const NUMBERS_COLOR = color('#899089');
-export const NUMBERS_BG_COLOR = color('#474b47');
 export const PLAYER_COLOR = color('#FFFFFF');
-
-export const COLOR_MAP = {
-  [SymbolType.BACKGROUND]: color('#272822'),
-  [SymbolType.HIGHLIGHT]: color('#1e1d1e'),
-  [SymbolType.UNKNOWN]: color('#FFFFFF'),
-  [SymbolType.CONST]: color('#f1efe2'),
-  [SymbolType.TAG]: color('#dd2568'),
-  [SymbolType.VALUE]: color('#c4af4f'),
-  [SymbolType.EQUAl]: color('#d4d3be'),
-  [SymbolType.ATTR]: color('#9abd06'),
-};
 
 export const RANDOM_TAGS = [
   'div',
@@ -78,4 +65,5 @@ export enum Command {
   BOTTOM,
   SHIFT_BOTTOM,
   IDLE,
+  ACTION,
 }

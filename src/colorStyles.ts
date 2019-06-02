@@ -1,7 +1,15 @@
 import {SymbolType} from "./entities/SymbolType";
 import {color} from "./utils/color";
 import commonShader from './shaders/common.frag';
-import redShader from './shaders/red.frag';
+
+export const TERMINAL_THEME = {
+  background: color('#0e1111'),
+  backgroundText: color('#6b8092'),
+  foreground: color('#4c566a'),
+  tab: color('#3b4251'),
+  accent: color('#88c0d0'),
+  foregroundText: color('#dbd6c5'),
+};
 
 export const COLOR_STYLES = {
   Monokai: {

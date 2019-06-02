@@ -4,10 +4,10 @@ import {Observable, Subject} from "rxjs";
 import {filter, takeUntil} from "rxjs/operators";
 import {CELL_HEIGHT, CELL_WIDTH, Command} from "../constants";
 import {Rectangle} from "../atoms/Rectangle";
-import {COLOR_STYLES} from "../colorStyles";
+import {COLOR_STYLES, TERMINAL_THEME} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
 import {Word} from "../atoms/Word";
-import {IStyle, StyleContext} from "../entities/StyleContext";
+import {IStyle} from "../entities/StyleContext";
 
 interface IProps {
   input$: Observable<Command>;
@@ -72,12 +72,14 @@ export class ChooseStyleSelect extends PureComponent<IProps, IState> {
 
     return (
       <Container>
-        <StyleContext.Consumer>
-          {style => (
-            <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={'Style:'} fill={style[SymbolType.TAG]}/>
-          )}
-        </StyleContext.Consumer>
-        <Container x={10 * CELL_WIDTH}>
+        <Word
+          x={CELL_WIDTH}
+          y={CELL_HEIGHT}
+          text={'Style:'}
+          fill={TERMINAL_THEME.foregroundText}
+        />
+
+        <Container x={8 * CELL_WIDTH}>
           {styles.map((name, index) => (
             <Container key={index} y={(index - this.state.offset) * CELL_HEIGHT * 4}>
               <Rectangle

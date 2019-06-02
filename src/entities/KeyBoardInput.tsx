@@ -8,6 +8,7 @@ const KeyCommandMap: {[key: string]: Command} = {
   a: Command.LEFT,
   s: Command.BOTTOM,
   d: Command.RIGHT,
+  enter: Command.ACTION,
 };
 
 const KeyShiftCommandMap: {[key: string]: Command} = {

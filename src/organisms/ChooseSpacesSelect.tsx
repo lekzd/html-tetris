@@ -3,9 +3,8 @@ import {Container} from 'react-pixi-fiber';
 import {Observable, Subject} from "rxjs";
 import {filter, takeUntil} from "rxjs/operators";
 import {CELL_HEIGHT, CELL_WIDTH, Command} from "../constants";
-import {SymbolType} from "../entities/SymbolType";
 import {Word} from "../atoms/Word";
-import {StyleContext} from "../entities/StyleContext";
+import {TERMINAL_THEME} from "../colorStyles";
 
 interface IProps {
   input$: Observable<Command>;
@@ -65,20 +64,16 @@ export class ChooseSpacesSelect extends PureComponent<IProps, IState> {
 
   render() {
     return (
-      <StyleContext.Consumer>
-        {style => (
-          <Fragment>
-            <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={'Spaces:'} fill={style[SymbolType.TAG]}/>
-            <Container x={10 * CELL_WIDTH}>
-              {SPACES.map((name, index) => (
-                <Container key={index} y={(index - this.state.offset) * CELL_HEIGHT * 4}>
-                  <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={name.toString()} fill={style[SymbolType.TAG]}/>
-                </Container>
-              ))}
+      <Fragment>
+        <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={'Spaces:'} fill={TERMINAL_THEME.foregroundText}/>
+        <Container x={10 * CELL_WIDTH}>
+          {SPACES.map((name, index) => (
+            <Container key={index} y={(index - this.state.offset) * CELL_HEIGHT * 4}>
+              <Word x={CELL_WIDTH} y={CELL_HEIGHT} text={name.toString()} fill={TERMINAL_THEME.foregroundText}/>
             </Container>
-          </Fragment>
-        )}
-      </StyleContext.Consumer>
+          ))}
+        </Container>
+      </Fragment>
     )
   }
 }
