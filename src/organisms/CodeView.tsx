@@ -8,6 +8,8 @@ import {SymbolType} from "../entities/SymbolType";
 import {Rectangle} from "../atoms/Rectangle";
 import {color} from "../utils/color";
 import {Word} from "../atoms/Word";
+import {Beak} from "../atoms/Beak";
+import {BeakWord} from "../molecules/BeakWorld";
 
 interface IProps {
   lines: string[];
@@ -50,19 +52,18 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
           fill={style[SymbolType.HIGHLIGHT]}
         />
 
-        <Rectangle
-          x={0}
+        <BeakWord
+          x={200}
           y={0}
-          width={(`>>> ${style.name} `.length) * CELL_WIDTH}
-          height={CELL_HEIGHT}
           fill={color('#cc427e')}
+          text={style.name}
         />
 
-        <Word
+        <BeakWord
           x={0}
           y={0}
-          fill={color('#ffffff')}
-          text={`>>> ${style.name}`}
+          fill={style[SymbolType.HIGHLIGHT]}
+          text={'html-tetris'}
         />
 
         <Rectangle
