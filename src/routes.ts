@@ -27,3 +27,19 @@ export type GameRoomRoute = [
 type routes = JoinRoomRoute | ChooseRoomRoute | GameRoomRoute;
 
 export const router$ = new BehaviorSubject<routes>([JoinRoom, {}]);
+
+/*
+* Usage:
+*
+* In main component:
+* <div>
+*   {React.createElement(...router$.value)}
+* </div>
+*
+* Redirect:
+* router$.next([Component, {...props}])
+*
+* Fetching route params:
+* const {param1, param2} = router$.value[1]
+*
+* */
