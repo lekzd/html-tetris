@@ -6,9 +6,8 @@ export const CELL_HEIGHT = 25;
 export const CELL_WIDTH = 15;
 
 export const FONT = 'PT Mono, Monospaced, monospace';
-export const FONT_WEIGHT = 600;
+export const FONT_WEIGHT = 500;
 
-export const BACKGROUND_COLOR = color('#272822');
 export const NUMBERS_COLOR = color('#899089');
 export const PLAYER_COLOR = color('#FFFFFF');
 

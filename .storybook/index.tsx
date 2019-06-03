@@ -23,15 +23,22 @@ story('NewGameRoom')
   ));
 
 const storiesModule = story('CodeView');
+const codeLines = [
+  '<body>',
+  '  <div class="form-item">',
+  '    <input name="formInput" value="" />',
+  '  </div>',
+  '</body>'
+];
 
 Object.keys(COLOR_STYLES).forEach(key => {
   storiesModule
     .add(`Themes/${key}`, () => (
       <StyleContext.Provider value={COLOR_STYLES[key]}>
         <CodeView
-          lines={['<div>', '</div>']}
+          lines={codeLines}
           leftOffset={3}
-          topOffset={8}
+          topOffset={6}
           linesHeight={18}
           activeIndex={-1}
         />
