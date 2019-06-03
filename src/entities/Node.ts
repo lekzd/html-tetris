@@ -11,6 +11,11 @@ export class Node {
   }
 
   addAttribute(name: string) {
+
+    if (this.attributes.has(name)) {
+      throw Error(`Already has attribute "${name}"`);
+    }
+
     this.attributes.set(name, '');
     this.onAddAttribute(name);
   }

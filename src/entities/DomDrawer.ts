@@ -31,8 +31,10 @@ export class DomDrawer {
   private getOpenTag(tag: Node, attributes: IAttributes): string {
     let str = `<${tag.name}>`;
 
+    let propsStringified = '';
+
     if (attributes.size) {
-      const propsStringified = [...attributes.entries()]
+      propsStringified = [...attributes.entries()]
         .map(([key, value]) => `${key}="${value}"`)
         .join(' ');
 
@@ -40,7 +42,7 @@ export class DomDrawer {
     }
 
     if (tag.childless) {
-      str = `<${tag.name}/>`;
+      str = `<${tag.name} ${propsStringified}/>`;
     }
 
     return str;
