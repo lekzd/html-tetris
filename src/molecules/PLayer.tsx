@@ -1,14 +1,5 @@
 import React, {Fragment, PureComponent} from "react";
-import {
-  CELL_HEIGHT,
-  CELL_WIDTH,
-  Command,
-  HEIGHT,
-  PLAYER_COLOR,
-  RANDOM_TAGS,
-  RANDOM_TEXTS,
-  WIDTH
-} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH, Command, HEIGHT, PLAYER_COLOR, RANDOM_TAGS, RANDOM_TEXTS, WIDTH} from "../constants";
 import {Dom} from "../entities/Dom";
 import {Observable, Subject, timer} from "rxjs";
 import {takeUntil} from "rxjs/operators";
@@ -106,13 +97,26 @@ export class Player extends PureComponent<IProps, IState> {
 
     y += offset;
 
-    const tag = this.dom.getNodeByPosition(x, y);
+    const node = this.dom.getNodeByPosition(x, y);
 
-    if (tag) {
-      this.dom.addAttribute(text, tag);
-      this.reSpawn();
+    if (node) {
 
-      return;
+      try {
+        this.dom.addAttribute(text, node);
+        this.reSpawn();
+
+        return;
+      } catch (e) {
+        if ([Command.TOP, Command.SHIFT_TOP].includes(state)) {
+          this.setState({state: Command.BOTTOM});
+          return;
+        }
+
+        if ([Command.BOTTOM, Command.SHIFT_BOTTOM].includes(state)) {
+          this.setState({state: Command.TOP});
+          return;
+        }
+      }
     }
 
     if (y < 0 || y > HEIGHT || x < 0 || x > WIDTH) {
@@ -133,17 +137,30 @@ export class Player extends PureComponent<IProps, IState> {
     const node = this.dom.getNodeByPosition(x, y);
 
     if (node) {
-      const {childless, parent} = node;
 
-      if (childless) {
-        this.dom.pushNode(text, parent);
-      } else {
-        this.dom.unshiftNode(text, node);
+      try {
+        const {childless, parent} = node;
+
+        if (childless) {
+          this.dom.pushNode(text, parent);
+        } else {
+          this.dom.unshiftNode(text, node);
+        }
+
+        this.reSpawn();
+
+        return;
+      } catch (e) {
+        if ([Command.LEFT, Command.SHIFT_LEFT].includes(state)) {
+          this.setState({state: Command.RIGHT});
+          return;
+        }
+
+        if ([Command.RIGHT, Command.SHIFT_RIGHT].includes(state)) {
+          this.setState({state: Command.LEFT});
+          return;
+        }
       }
-
-      this.reSpawn();
-
-      return;
     }
 
     if (y < 0 || y > HEIGHT || x < 0 || x > WIDTH) {

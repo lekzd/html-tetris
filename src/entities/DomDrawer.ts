@@ -6,20 +6,13 @@ export class DomDrawer {
   private renderedLines: string[] = [];
   private renderedIndexes = new Map<number, Node>();
 
-  constructor(private nodes: Node[],
-              private attributes: WeakMap<Node, IAttributes>) {};
+  constructor(private nodes: Node[]) {};
 
   private traverseNodes(deepIndex: number, parent: Node) {
     const nodes = this.nodes.filter(node => node.parent === parent);
 
     nodes.forEach(node => {
-      const attributes = this.attributes.get(node);
-
-      if (!attributes) {
-        return;
-      }
-
-      const openTag = this.getOpenTag(node, attributes);
+      const openTag = this.getOpenTag(node, node.attributes);
       const index = this.renderedLines.push(openTag.padStart(openTag.length + deepIndex, ' '));
 
       this.renderedIndexes.set(index - 1, node);

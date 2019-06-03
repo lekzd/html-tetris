@@ -1,6 +1,5 @@
 import {Subject} from "rxjs";
 import {Node} from "./Node";
-import {IAttributes} from "./IAttributes";
 import {DomDrawer} from "./DomDrawer";
 import {HEIGHT} from "../constants";
 import {nodeTypes} from "./nodeTypes";
@@ -11,8 +10,7 @@ export class Dom extends Subject<string[]> {
 
   private renderedLines: string[] = [];
   private data = new Array<Node>();
-  private attributes = new WeakMap<Node, IAttributes>();
-  private drawer = new DomDrawer(this.data, this.attributes);
+  private drawer = new DomDrawer(this.data);
 
   private topOffset = 0;
   private leftOffset = 0;
@@ -23,10 +21,7 @@ export class Dom extends Subject<string[]> {
     }
 
     const NodeConstructor = nodeTypes[name];
-
     const newNode = new NodeConstructor(this, name, parent);
-
-    this.attributes.set(newNode, new Map<string, string>());
 
     newNode.onCreate();
 
@@ -62,15 +57,8 @@ export class Dom extends Subject<string[]> {
   }
 
   addAttribute(name: string, node: Node) {
-    const attributes = this.attributes.get(node);
+    node.addAttribute(name);
 
-    if (!attributes) {
-      return;
-    }
-
-    node.onAddAttribute(name);
-
-    attributes.set(name, '');
     this.renderTree();
     this.affectedLines$.next(this.drawer.getNodeIndexes(node));
   }
