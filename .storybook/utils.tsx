@@ -8,7 +8,7 @@ const width = 800;
 const OPTIONS = {
   backgroundColor: TERMINAL_THEME.background,
   autoResize: true,
-  resolution: Math.max(window.devicePixelRatio, 2) || 1,
+  resolution: Math.min(window.devicePixelRatio, 2) || 1,
 };
 
 export const story = (name: string) => storiesOf(name, module)

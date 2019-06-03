@@ -9,7 +9,7 @@ const width = 1200;
 const OPTIONS = {
   backgroundColor: TERMINAL_THEME.background,
   autoResize: true,
-  resolution: Math.max(window.devicePixelRatio, 2) || 1,
+  resolution: Math.min(window.devicePixelRatio, 2) || 1,
 };
 
 export class App extends PureComponent {
