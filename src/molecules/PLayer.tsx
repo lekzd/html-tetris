@@ -133,9 +133,9 @@ export class Player extends PureComponent<IProps, IState> {
     const node = this.dom.getNodeByPosition(x, y);
 
     if (node) {
-      const {isCollapsed, parent} = node;
+      const {childless, parent} = node;
 
-      if (isCollapsed) {
+      if (childless) {
         this.dom.pushNode(text, parent);
       } else {
         this.dom.unshiftNode(text, node);

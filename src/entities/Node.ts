@@ -4,8 +4,9 @@ export class Node {
 
   childless = false;
 
-  constructor(protected dom: Dom, public tagName: string) {
-
+  constructor(protected dom: Dom,
+              public name: string,
+              public parent?: Node) {
   }
 
   onCreate() {

@@ -1,6 +1,6 @@
 import { Command} from "../constants";
 import {fromEvent, merge, Subject} from "rxjs";
-import {filter, map, takeUntil, tap} from "rxjs/operators";
+import {filter, map, takeUntil} from "rxjs/operators";
 import keycode from "keycode";
 
 const KeyCommandMap: {[key: string]: Command} = {
@@ -42,7 +42,6 @@ export class KeyBoardInput extends Subject<Command> {
       .pipe(
         filter(e => !e.shiftKey),
         map(e => keycode(e)),
-        tap(console.log),
         filter(e => Object.keys(KeyCommandMap).includes(e)),
         map(e => KeyCommandMap[e])
       );

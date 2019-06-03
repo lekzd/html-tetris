@@ -1,15 +1,15 @@
-import {INode} from "./INode";
+import {Node} from "./Node";
 import {IAttributes} from "./IAttributes";
 
 export class DomDrawer {
 
   private renderedLines: string[] = [];
-  private renderedIndexes = new Map<number, INode>();
+  private renderedIndexes = new Map<number, Node>();
 
-  constructor(private nodes: INode[],
-              private attributes: WeakMap<INode, IAttributes>) {};
+  constructor(private nodes: Node[],
+              private attributes: WeakMap<Node, IAttributes>) {};
 
-  private traverseNodes(deepIndex: number, parent: INode) {
+  private traverseNodes(deepIndex: number, parent: Node) {
     const nodes = this.nodes.filter(node => node.parent === parent);
 
     nodes.forEach(node => {
@@ -26,7 +26,7 @@ export class DomDrawer {
 
       this.traverseNodes(deepIndex + 4, node);
 
-      if (!node.isCollapsed) {
+      if (!node.childless) {
         const closedTag = this.getCloseTag(node);
         const index = this.renderedLines.push(closedTag.padStart(closedTag.length + deepIndex, ' '));
 
@@ -35,7 +35,7 @@ export class DomDrawer {
     });
   }
 
-  private getOpenTag(tag: INode, attributes: IAttributes): string {
+  private getOpenTag(tag: Node, attributes: IAttributes): string {
     let str = `<${tag.name}>`;
 
     if (attributes.size) {
@@ -46,18 +46,18 @@ export class DomDrawer {
       str = `<${tag.name} ${propsStringified}>`;
     }
 
-    if (tag.isCollapsed) {
+    if (tag.childless) {
       str = `<${tag.name}/>`;
     }
 
     return str;
   }
 
-  private getCloseTag(tag: INode): string {
+  private getCloseTag(tag: Node): string {
     return `</${tag.name}>`;
   }
 
-  getNodeIndexes(node: INode): number[] {
+  getNodeIndexes(node: Node): number[] {
     const result: number[] = [];
 
     this.renderedIndexes.forEach((renderedNode, index) => {
@@ -72,12 +72,12 @@ export class DomDrawer {
   getRenderedStrings(): string[] {
     this.renderedIndexes.clear();
     this.renderedLines = [];
-    this.traverseNodes(0, undefined as any as INode);
+    this.traverseNodes(0, undefined as any as Node);
 
     return this.renderedLines;
   }
 
-  getNodeByPosition(x: number, y: number): INode | null {
+  getNodeByPosition(x: number, y: number): Node | null {
     const node = this.renderedIndexes.get(y) || null;
 
     return node;
