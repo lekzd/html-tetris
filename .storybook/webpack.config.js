@@ -17,5 +17,12 @@ module.exports = ({ config, mode }) => {
     });
     config.resolve.extensions.push('.frag');
 
+    config.module.rules.unshift({
+        test: /\.vert$/,
+        loader: require.resolve('raw-loader'),
+        include: path.resolve(__dirname,'../src/shaders/'),
+    });
+    config.resolve.extensions.push('.vert');
+
     return config;
 };

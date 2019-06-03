@@ -11,9 +11,11 @@ import {IStyle, StyleContext} from "../entities/StyleContext";
 import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
 import {CodeView} from "../organisms/CodeView";
-import {GameRoomRoute, router$} from "../routes";
 
-interface IProps {}
+interface IProps {
+  style: IStyle;
+  spaces: number;
+}
 
 interface IState {
   style: IStyle;
@@ -29,10 +31,8 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
   private keyBoardInput$ = new KeyBoardInput();
   private dom = new Dom();
 
-  private routeParams = router$.value as GameRoomRoute;
-
   state = {
-    style: this.routeParams[1].style,
+    style: this.props.style,
     lines: [],
     affectedLines: [],
     leftOffset: 0,

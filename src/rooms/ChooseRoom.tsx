@@ -14,7 +14,9 @@ import {Button} from "../organisms/Button";
 import {router$} from "../routes";
 import {NewGameRoom} from "./NewGameRoom";
 
-interface IProps {}
+interface IProps {
+  name: string;
+}
 
 interface IState {
   style: IStyle;

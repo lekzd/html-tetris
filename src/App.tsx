@@ -14,20 +14,22 @@ const OPTIONS = {
 
 export class App extends PureComponent {
   state = {
-    activeComponent: router$.value[0],
+    routerState: router$.value,
   };
 
   componentWillMount() {
-    router$.subscribe(([activeComponent]) => {
-      this.setState({activeComponent});
+    router$.subscribe(routerState => {
+      this.setState({routerState});
     })
   }
 
   render() {
+    const [component, props] = this.state.routerState;
+
     return (
       <div className="App">
         <Stage options={OPTIONS} width={width} height={height}>
-          {React.createElement(this.state.activeComponent)}
+          {React.createElement(component, props)}
         </Stage>
       </div>
     );
