@@ -122,6 +122,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
           <Player
             dom={this.dom}
+            firstElement={'img'}
             input$={this.keyBoardInput$}
           />
 

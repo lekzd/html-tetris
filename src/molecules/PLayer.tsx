@@ -1,5 +1,5 @@
 import React, {Fragment, PureComponent} from "react";
-import {CELL_HEIGHT, CELL_WIDTH, Command, HEIGHT, PLAYER_COLOR, RANDOM_TAGS, RANDOM_TEXTS, WIDTH} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH, Command, HEIGHT, PLAYER_COLOR, RANDOM_TEXTS, WIDTH} from "../constants";
 import {Dom} from "../entities/Dom";
 import {Observable, Subject, timer} from "rxjs";
 import {takeUntil} from "rxjs/operators";
@@ -7,9 +7,11 @@ import {Word} from "../atoms/Word";
 import {Filter} from "../atoms/Filter";
 
 import playerShader from '../shaders/player.frag';
+import {shuffle} from '../utils/shuffle';
 
 interface IProps {
   dom: Dom;
+  firstElement: string;
   input$: Observable<Command>;
 }
 
@@ -26,10 +28,11 @@ export class Player extends PureComponent<IProps, IState> {
 
   private dom = new Dom();
   private unmount$ = new Subject();
+  private randomArray = shuffle(RANDOM_TEXTS);
 
   state = {
     state: Command.IDLE,
-    text: RANDOM_TAGS[Math.floor(Math.random() * RANDOM_TAGS.length)],
+    text: this.props.firstElement,
     x: WIDTH >> 1,
     oldX: WIDTH >> 1,
     y: 0,
@@ -42,7 +45,9 @@ export class Player extends PureComponent<IProps, IState> {
     const y = 0;
     const oldY = 0;
     const state = Command.BOTTOM;
-    const text = RANDOM_TEXTS[Math.floor(Math.random() * RANDOM_TEXTS.length)];
+    const text = this.randomArray.shift() || this.props.firstElement;
+
+    this.randomArray.push(text);
 
     this.setState({x, oldX, y, oldY, state, text});
   }
