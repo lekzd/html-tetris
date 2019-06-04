@@ -1,8 +1,8 @@
 import {Subject} from "rxjs";
-import {Node} from "./Node";
+import {Node} from "../nodes/Node";
 import {DomDrawer} from "./DomDrawer";
 import {HEIGHT} from "../constants";
-import {nodeTypes} from "./nodeTypes";
+import {nodeTypes} from "../nodes/nodeTypes";
 
 export class Dom extends Subject<string[]> {
 
@@ -26,7 +26,7 @@ export class Dom extends Subject<string[]> {
     newNode.onCreate();
 
     if (parent) {
-      parent.onAddChild(newNode);
+      parent.addChild(newNode);
     }
 
     return newNode;

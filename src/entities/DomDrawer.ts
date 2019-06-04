@@ -1,4 +1,4 @@
-import {Node} from "./Node";
+import {Node} from "../nodes/Node";
 import {IAttributes} from "./IAttributes";
 
 export class DomDrawer {

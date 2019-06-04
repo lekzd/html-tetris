@@ -29,7 +29,7 @@ export class App extends PureComponent {
     return (
       <div className="App">
         <Stage options={OPTIONS} width={width} height={height}>
-          {React.createElement(component, props)}
+          {React.createElement(component as any, props)}
         </Stage>
       </div>
     );

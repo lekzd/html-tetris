@@ -22,7 +22,7 @@ story('NewGameRoom')
     <NewGameRoom style={COLOR_STYLES.Gruvbox} spaces={4} />
   ));
 
-const storiesModule = story('CodeView');
+const storiesModule = story('CodeView/Themes');
 const codeLines = [
   '<body>',
   '  <div class="form-item">',
@@ -33,7 +33,7 @@ const codeLines = [
 
 Object.keys(COLOR_STYLES).forEach(key => {
   storiesModule
-    .add(`Themes/${key}`, () => (
+    .add(`${key}`, () => (
       <StyleContext.Provider value={COLOR_STYLES[key]}>
         <CodeView
           lines={codeLines}
