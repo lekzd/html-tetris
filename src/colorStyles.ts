@@ -1,6 +1,8 @@
 import {SymbolType} from "./entities/SymbolType";
 import {color} from "./utils/color";
 import commonShader from './shaders/common.frag';
+import redShader from './shaders/red.frag';
+import pulseShader from './shaders/pulse.frag';
 
 export const TERMINAL_THEME = {
   background: color('#0e1111'),
@@ -15,6 +17,7 @@ export const COLOR_STYLES = {
   Monokai: {
     name: 'Monokai',
     finalShader: commonShader,
+    affectedShader: pulseShader,
     [SymbolType.BACKGROUND]: color('#272822'),
     [SymbolType.NUMBERS_BG]: color('#33352c'),
     [SymbolType.HIGHLIGHT]: color('#1e1d1e'),
@@ -28,6 +31,7 @@ export const COLOR_STYLES = {
   Far: {
     name: 'Far',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#000080'),
     [SymbolType.NUMBERS_BG]: color('#000080'),
     [SymbolType.HIGHLIGHT]: color('#00043f'),
@@ -41,6 +45,7 @@ export const COLOR_STYLES = {
   Gruvbox: {
     name: 'Gruvbox Dark',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#282828'),
     [SymbolType.NUMBERS_BG]: color('#3c3836'),
     [SymbolType.HIGHLIGHT]: color('#1d2021'),
@@ -54,6 +59,7 @@ export const COLOR_STYLES = {
   Synthwave: {
     name: 'SynthWave \'84',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#2b213a'),
     [SymbolType.NUMBERS_BG]: color('#2b213a'),
     [SymbolType.HIGHLIGHT]: color('#241b30'),
@@ -67,6 +73,7 @@ export const COLOR_STYLES = {
   Lightfair: {
     name: 'Lightfair',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#550000'),
     [SymbolType.NUMBERS_BG]: color('#652d2c'),
     [SymbolType.HIGHLIGHT]: color('#340000'),
@@ -80,6 +87,7 @@ export const COLOR_STYLES = {
   Nord: {
     name: 'Nord',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#2e3440'),
     [SymbolType.NUMBERS_BG]: color('#3b4252'),
     [SymbolType.HIGHLIGHT]: color('#22262f'),
@@ -93,6 +101,7 @@ export const COLOR_STYLES = {
   Qtcreator: {
     name: 'Qtcreator',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#000000'),
     [SymbolType.NUMBERS_BG]: color('#000000'),
     [SymbolType.HIGHLIGHT]: color('#1d1d1d'),
@@ -106,6 +115,7 @@ export const COLOR_STYLES = {
   Solarized: {
     name: 'Solarized',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#002b36'),
     [SymbolType.NUMBERS_BG]: color('#003948'),
     [SymbolType.HIGHLIGHT]: color('#001c23'),
@@ -119,6 +129,7 @@ export const COLOR_STYLES = {
   XT256: {
     name: 'XT 256',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#000000'),
     [SymbolType.NUMBERS_BG]: color('#000000'),
     [SymbolType.HIGHLIGHT]: color('#1d1d1d'),
@@ -132,6 +143,7 @@ export const COLOR_STYLES = {
   Github: {
     name: 'Github',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#f8f8f8'),
     [SymbolType.NUMBERS_BG]: color('#f8f8f8'),
     [SymbolType.HIGHLIGHT]: color('#a4a4a4'),
@@ -145,6 +157,7 @@ export const COLOR_STYLES = {
   Dracula: {
     name: 'Dracula',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#282a36'),
     [SymbolType.NUMBERS_BG]: color('#313342'),
     [SymbolType.HIGHLIGHT]: color('#181921'),
@@ -158,6 +171,7 @@ export const COLOR_STYLES = {
   GardenOfEden: {
     name: 'Garden Of Eden',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#005050'),
     [SymbolType.NUMBERS_BG]: color('#005050'),
     [SymbolType.HIGHLIGHT]: color('#003535'),
@@ -171,6 +185,7 @@ export const COLOR_STYLES = {
   Matrix: {
     name: 'Matrix',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#000000'),
     [SymbolType.NUMBERS_BG]: color('#000000'),
     [SymbolType.HIGHLIGHT]: color('#123212'),
@@ -184,6 +199,7 @@ export const COLOR_STYLES = {
   Strawberry: {
     name: 'Strawberry',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#ffebf0'),
     [SymbolType.NUMBERS_BG]: color('#e0c5cc'),
     [SymbolType.HIGHLIGHT]: color('#d46a84'),
@@ -197,6 +213,7 @@ export const COLOR_STYLES = {
   ColorsOff: {
     name: 'Colors Off',
     finalShader: commonShader,
+    affectedShader: commonShader,
     [SymbolType.BACKGROUND]: color('#313131'),
     [SymbolType.NUMBERS_BG]: color('#313131'),
     [SymbolType.HIGHLIGHT]: color('#3e3e3e'),
