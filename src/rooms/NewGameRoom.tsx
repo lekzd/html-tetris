@@ -11,8 +11,7 @@ import {IStyle, StyleContext} from "../entities/StyleContext";
 import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
 import {CodeView} from "../organisms/CodeView";
-import {Word} from '../atoms/Word';
-import {Filter} from '../atoms/Filter';
+import {AffectedLines} from '../molecules/AffectedLines';
 
 interface IProps {
   style: IStyle;
@@ -107,30 +106,12 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
             activeIndex={-1}
           />
 
-          <StyleContext.Consumer>
-            {style =>
-              this.state.affectedLines.map(index => (
-                <Filter
-                  key={index}
-                  x={0}
-                  y={(index + this.state.topOffset) * CELL_HEIGHT}
-                  shader={this.state.style.affectedShader}
-                >
-                  <Rectangle
-                    x={0}
-                    y={0}
-                    width={WIDTH * CELL_WIDTH}
-                    height={CELL_HEIGHT}
-                    fill={style[SymbolType.HIGHLIGHT]}
-                  />
-                  <Word
-                    fill={this.state.style[SymbolType.UNKNOWN]}
-                    text={this.state.lines[index]}
-                  />
-                </Filter>
-              ))
-            }
-          </StyleContext.Consumer>
+          <AffectedLines
+            dom={this.dom}
+            leftOffset={this.state.leftOffset}
+            topOffset={this.state.topOffset}
+            lines={this.state.affectedLines}
+          />
 
           <Player
             dom={this.dom}

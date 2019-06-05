@@ -2,8 +2,9 @@ import React, {PureComponent} from "react";
 import {ContainerProperties, Container} from 'react-pixi-fiber';
 import * as PIXI from 'pixi.js';
 import commonVertex from '../shaders/common.vert';
-import {interval, Subject} from 'rxjs/index';
+import {Subject} from 'rxjs/index';
 import {takeUntil} from 'rxjs/internal/operators';
+import {mainTimer$} from '../App';
 
 interface IProps extends Partial<ContainerProperties> {
   shader: string;
@@ -15,7 +16,6 @@ interface IState {
 
 export class Filter extends PureComponent<IProps, IState> {
 
-  private timer$ = interval(100);
   private unmount$ = new Subject();
 
   state = {
@@ -27,7 +27,7 @@ export class Filter extends PureComponent<IProps, IState> {
 
     this.setState({filters: [filter]});
 
-    this.timer$
+    mainTimer$
       .pipe(takeUntil(this.unmount$))
       .subscribe(time => {
         filter.uniforms.time = time;

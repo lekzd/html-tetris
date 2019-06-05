@@ -7,8 +7,8 @@ import {nodeTypes} from "../nodes/nodeTypes";
 export class Dom extends Subject<string[]> {
 
   affectedLines$ = new Subject<number[]>();
+  renderedLines: string[] = [];
 
-  private renderedLines: string[] = [];
   private data = new Array<Node>();
   private drawer = new DomDrawer(this.data);
 

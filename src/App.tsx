@@ -3,6 +3,9 @@ import './App.css';
 import {Stage} from 'react-pixi-fiber';
 import {TERMINAL_THEME} from "./colorStyles";
 import {router$} from "./routes";
+import {interval} from 'rxjs/index';
+
+export const mainTimer$ = interval(100);
 
 const height = 800;
 const width = 1200;

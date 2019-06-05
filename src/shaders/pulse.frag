@@ -9,5 +9,7 @@ out vec4 color;
 void main(void) {
     float timeFactor = sin(time);
 
-    color = texture(uSampler, vTextureCoord) + vec4(timeFactor, timeFactor, timeFactor, 1.0);
+    vec3 textureColor = texture(uSampler, vTextureCoord).rgb;
+
+    color = vec4(textureColor, timeFactor);
 }
