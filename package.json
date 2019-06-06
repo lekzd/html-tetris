@@ -7,6 +7,7 @@
     "@types/node": "12.0.2",
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
+    "figlet": "^1.2.3",
     "file-loader": "^3.0.1",
     "keycode": "^2.2.0",
     "pixi.js": "^5.0.2",

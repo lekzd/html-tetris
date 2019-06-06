@@ -57,7 +57,7 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
         />
 
         <BeakWord
-          x={CELL_WIDTH * 12}
+          x={CELL_WIDTH * 4}
           y={0}
           fill={TERMINAL_THEME.accent}
           text={style.name}
@@ -67,7 +67,7 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
           x={-CELL_WIDTH}
           y={0}
           fill={style[SymbolType.HIGHLIGHT]}
-          text={'html-tetris'}
+          text={'vim'}
         />
 
         <Rectangle

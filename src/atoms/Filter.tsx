@@ -17,27 +17,26 @@ interface IState {
 export class Filter extends PureComponent<IProps, IState> {
 
   private unmount$ = new Subject();
+  private filter = new PIXI.Filter(commonVertex, this.props.shader, {time: 0});
 
   state = {
     filters: [],
   };
 
   componentWillMount() {
-    const filter = new PIXI.Filter(commonVertex, this.props.shader, {time: 0});
-
-    this.setState({filters: [filter]});
+    this.setState({filters: [this.filter]});
 
     mainTimer$
       .pipe(takeUntil(this.unmount$))
       .subscribe(time => {
-        filter.uniforms.time = time;
+        this.filter.uniforms.time = time;
       });
   }
 
   componentWillReceiveProps({shader}: IProps) {
-    const filter = new PIXI.Filter(commonVertex, shader, {});
+    this.filter = new PIXI.Filter(commonVertex, shader, {time: 0});
 
-    this.setState({filters: [filter]})
+    this.setState({filters: [this.filter]});
   }
 
   componentWillUnmount() {

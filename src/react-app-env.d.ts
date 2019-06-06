@@ -19,3 +19,9 @@ declare module 'qr-encoder' {
 
   export default module;
 }
+
+declare module 'figlet' {
+  const module: any;
+
+  export default module;
+}

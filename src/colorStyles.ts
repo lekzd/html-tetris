@@ -3,6 +3,7 @@ import {color} from "./utils/color";
 import commonShader from './shaders/common.frag';
 import redShader from './shaders/red.frag';
 import pulseShader from './shaders/pulse.frag';
+import joinRoomWaveShader from './shaders/joinRoomWave.frag';
 
 export const TERMINAL_THEME = {
   background: color('#0e1111'),
@@ -11,6 +12,21 @@ export const TERMINAL_THEME = {
   tab: color('#3b4251'),
   accent: color('#63add0'),
   foregroundText: color('#dbd6c5'),
+};
+
+export const JOIN_ROOM_THEME = {
+  name: 'Hello',
+  finalShader: joinRoomWaveShader,
+  affectedShader: commonShader,
+  [SymbolType.BACKGROUND]: color('#313131'),
+  [SymbolType.NUMBERS_BG]: color('#313131'),
+  [SymbolType.HIGHLIGHT]: color('#3e3e3e'),
+  [SymbolType.UNKNOWN]: color('#ffffff'),
+  [SymbolType.CONST]: color('#ffffff'),
+  [SymbolType.TAG]: color('#ffffff'),
+  [SymbolType.VALUE]: color('#ffffff'),
+  [SymbolType.EQUAl]: color('#ffffff'),
+  [SymbolType.ATTR]: color('#ffffff'),
 };
 
 export const COLOR_STYLES = {
