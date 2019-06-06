@@ -9,6 +9,7 @@ import {Rectangle} from "../atoms/Rectangle";
 import {BeakWord} from "../molecules/BeakWorld";
 import {Filter} from "../atoms/Filter";
 import {TERMINAL_THEME} from "../colorStyles";
+import {PlayersContext} from '../entities/PlayersContext';
 
 interface IProps {
   lines: string[];
@@ -77,12 +78,28 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
           fill={style[SymbolType.HIGHLIGHT]}
         />
 
-        <BeakWord
-          x={-CELL_WIDTH}
-          y={(linesHeight - 1) * CELL_HEIGHT}
-          fill={TERMINAL_THEME.accent}
-          text={'INSERT'}
-        />
+        <PlayersContext.Consumer>
+          {players => players.map(config => (
+            <Container
+              x={-CELL_WIDTH}
+              y={(linesHeight - 1) * CELL_HEIGHT}
+            >
+              <BeakWord
+                x={(config.name.length + 2) * CELL_WIDTH}
+                y={0}
+                fill={TERMINAL_THEME.accent}
+                text={config.editorMode}
+              />
+              <BeakWord
+                x={0}
+                y={0}
+                fill={config.color}
+                text={config.name}
+              />
+            </Container>
+          ))}
+        </PlayersContext.Consumer>
+
       </Container>
     }
   </StyleContext.Consumer>

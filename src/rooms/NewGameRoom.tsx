@@ -5,13 +5,13 @@ import {takeUntil} from "rxjs/operators";
 import {Dom} from "../entities/Dom";
 import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, WIDTH} from "../constants";
 import {Player} from "../molecules/PLayer";
-import {KeyBoardInput} from "../entities/KeyBoardInput";
 import {Rectangle} from "../atoms/Rectangle";
 import {IStyle, StyleContext} from "../entities/StyleContext";
 import {COLOR_STYLES} from "../colorStyles";
 import {SymbolType} from "../entities/SymbolType";
 import {CodeView} from "../organisms/CodeView";
 import {AffectedLines} from '../molecules/AffectedLines';
+import {PlayersContext} from '../entities/PlayersContext';
 
 interface IProps {
   style: IStyle;
@@ -29,7 +29,6 @@ interface IState {
 
 export class NewGameRoom extends PureComponent<IProps, IState> {
   private unmount$ = new Subject();
-  private keyBoardInput$ = new KeyBoardInput();
   private dom = new Dom();
 
   state = {
@@ -113,11 +112,18 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
             lines={this.state.affectedLines}
           />
 
-          <Player
-            dom={this.dom}
-            firstElement={'img'}
-            input$={this.keyBoardInput$}
-          />
+          <PlayersContext.Consumer>
+            {players => players.map(config => (
+              <Player
+                id={config.id}
+                name={config.name}
+                mode={config.editorMode}
+                dom={this.dom}
+                firstElement={'img'}
+                input$={config.input$}
+              />
+            ))}
+          </PlayersContext.Consumer>
 
         </Container>
       </StyleContext.Provider>

@@ -5,12 +5,17 @@ import {Observable, Subject, timer} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {Word} from "../atoms/Word";
 import {Filter} from "../atoms/Filter";
+import {shuffle} from '../utils/shuffle';
 
 import playerShader from '../shaders/player.frag';
-import {shuffle} from '../utils/shuffle';
+import {setPlayerState$} from '../App';
+import {EditorMode} from '../entities/PlayersContext';
 
 interface IProps {
   dom: Dom;
+  id: string;
+  name: string;
+  mode: EditorMode;
   firstElement: string;
   input$: Observable<Command>;
 }
@@ -257,6 +262,14 @@ export class Player extends PureComponent<IProps, IState> {
       .subscribe(() => this.tick());
 
     this.props.input$.subscribe(command => {
+      if (command === Command.ACTION) {
+        setPlayerState$.next({
+          editorMode: this.props.mode === EditorMode.INSERT ? EditorMode.TRANSFORM : EditorMode.INSERT,
+        });
+
+        return;
+      }
+
       this.setState({state: command});
     });
   }
