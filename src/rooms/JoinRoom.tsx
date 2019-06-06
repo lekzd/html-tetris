@@ -203,7 +203,7 @@ export class JoinRoom extends PureComponent<IProps, IState> {
           lines: [
             ...data.split(/\n/g),
             ' ',
-            ...tutorial
+            ...tutorial.slice(0, 8)
           ],
         })
       });
@@ -230,7 +230,7 @@ export class JoinRoom extends PureComponent<IProps, IState> {
           <QrRectangle
             key={index}
             x={110 + index * 310}
-            y={500}
+            y={560}
             size={210}
             fill={color('#FFFFFF')}
             stroke={color('#000000')}
@@ -238,7 +238,7 @@ export class JoinRoom extends PureComponent<IProps, IState> {
           />
         ))}
 
-        <Container x={55 * CELL_WIDTH} y={20 * CELL_HEIGHT}>
+        <Container x={55 * CELL_WIDTH} y={25 * CELL_HEIGHT}>
           {this.state.focusedElement === 0 && <Rectangle
             x={-CELL_WIDTH}
             y={-CELL_HEIGHT}
