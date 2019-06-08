@@ -3,8 +3,8 @@ import {Container} from 'react-pixi-fiber';
 import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {Dom} from "../entities/Dom";
-import {CELL_HEIGHT, CELL_WIDTH, HEIGHT, WIDTH} from "../constants";
-import {Player} from "../molecules/PLayer";
+import {CELL_HEIGHT, CELL_WIDTH, gameScrollState$, HEIGHT, WIDTH} from "../constants";
+import {Player} from "../molecules/Player";
 import {Rectangle} from "../atoms/Rectangle";
 import {IStyle, StyleContext} from "../entities/StyleContext";
 import {COLOR_STYLES} from "../colorStyles";
@@ -63,8 +63,15 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
         setTimeout(() => {
           this.setState({affectedLines: []});
-        }, 200);
+        }, 300);
 
+      });
+
+    gameScrollState$
+      .pipe(
+        takeUntil(this.unmount$)
+      ).subscribe(({leftOffset, topOffset}) => {
+        this.setState({leftOffset, topOffset});
       });
 
     this.dom
@@ -73,6 +80,8 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
       ).subscribe(lines => {
         const topOffset = (HEIGHT - lines.length) >> 1;
         const leftOffset = 3;
+
+        gameScrollState$.next({leftOffset, topOffset});
 
         this.setState({lines, leftOffset, topOffset});
       });
@@ -115,6 +124,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
           <PlayersContext.Consumer>
             {players => players.map(config => (
               <Player
+                key={config.id}
                 id={config.id}
                 name={config.name}
                 mode={config.editorMode}

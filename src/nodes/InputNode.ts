@@ -1,34 +1,30 @@
 import {Node} from "./Node";
-import {randomChoice} from '../utils/random';
-
-const randomTypes = [
-  'text',
-  'password',
-  'submit',
-  'image',
-  'date',
-  'datetime',
-  'range',
-  'checkbox',
-  'radio',
-];
-
-const randomNames = [
-  'name',
-  'password',
-];
+import {Stack} from '../utils/Stack';
 
 export class InputNode extends Node {
 
   childless = true;
 
-  onAddAttribute(name: string) {
-    if (name === 'type') {
-      this.attributes.set(name, randomChoice(randomTypes));
-    }
+  onCreate() {
+    this.attributesConfig = {
+      ...this.attributesConfig,
 
-    if (name === 'name') {
-      this.attributes.set(name, randomChoice(randomNames));
+      type: new Stack([
+        'text',
+        'password',
+        'submit',
+        'image',
+        'date',
+        'datetime',
+        'range',
+        'checkbox',
+        'radio',
+      ]),
+
+      name: new Stack([
+        'name',
+        'password',
+      ]),
     }
   }
 

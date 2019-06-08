@@ -1,4 +1,5 @@
 import {color} from "./utils/color";
+import {BehaviorSubject} from 'rxjs/index';
 
 export const HEIGHT = 32;
 export const WIDTH = 80;
@@ -49,7 +50,7 @@ export const RANDOM_ATTRS = [
   'aria-label',
 ];
 
-export const RANDOM_TEXTS = [
+export const RANDOM_TEXTS: string[] = [
   ...RANDOM_TAGS,
   ...RANDOM_ATTRS,
 ];
@@ -66,3 +67,5 @@ export enum Command {
   IDLE,
   ACTION,
 }
+
+export const gameScrollState$ = new BehaviorSubject({leftOffset: 0, topOffset: 0});

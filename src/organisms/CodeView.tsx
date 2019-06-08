@@ -81,6 +81,7 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
         <PlayersContext.Consumer>
           {players => players.map(config => (
             <Container
+              key={config.id}
               x={-CELL_WIDTH}
               y={(linesHeight - 1) * CELL_HEIGHT}
             >

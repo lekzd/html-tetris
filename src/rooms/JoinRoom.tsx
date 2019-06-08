@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Container} from 'react-pixi-fiber';
 import {Subject} from "rxjs";
-import {CELL_HEIGHT, CELL_WIDTH, RANDOM_TAGS} from "../constants";
+import {CELL_HEIGHT, CELL_WIDTH} from "../constants";
 import {KeyBoardInput} from "../entities/KeyBoardInput";
 import {Rectangle} from "../atoms/Rectangle";
 import {JOIN_ROOM_THEME, TERMINAL_THEME} from "../colorStyles";
@@ -15,7 +15,7 @@ import {color} from "../utils/color";
 import figlet from "figlet";
 import {CodeView} from '../organisms/CodeView';
 import {StyleContext} from '../entities/StyleContext';
-import {shuffle} from '../utils/shuffle';
+import {Stack} from '../utils/Stack';
 
 interface IProps {}
 
@@ -65,62 +65,6 @@ export class JoinRoom extends PureComponent<IProps, IState> {
     this.setState({
       joinLinks: ['http://localhost.hu/html-tetris/client/111111', 'http://localhost.hu/html-tetris/client/222222']
     });
-
-    // merge(this.leftInput$, this.rightInput$)
-    //   .subscribe(focusedElement => {
-    //     this.setState({focusedElement});
-    //   });
-
-    // let array: any[] = shuffle([
-    //   {
-    //     command: 'x',
-    //     descr: 'to delete the unwanted character',
-    //   },
-    //   {
-    //     command: 'u',
-    //     descr: 'to undo the last the command and U to undo the whole line',
-    //   },
-    //   {
-    //     command: 'A',
-    //     descr: 'to append text at the end',
-    //   },
-    //   {
-    //     command: ':wq',
-    //     descr: 'to save and exit',
-    //   },
-    //   {
-    //     command: ':q!',
-    //     descr: 'to trash all changes',
-    //   },
-    //   {
-    //     command: 'dw',
-    //     descr: 'move the cursor to the beginning of the word to delete that word',
-    //   },
-    //   {
-    //     command: '2w',
-    //     descr: 'to move the cursor two words forward.',
-    //   },
-    //   {
-    //     command: '3e',
-    //     descr: 'to move the cursor to the end of the third word forward.',
-    //   },
-    //   {
-    //     command: '0 (zero)',
-    //     descr: 'to move to the start of the line.',
-    //   },
-    //   {
-    //     command: 'd2w',
-    //     descr: 'to delete 2 words',
-    //   },
-    //   {
-    //     command: 'dd',
-    //     descr: 'to delete the line',
-    //   },
-    //   {
-    //     command: '2dd',
-    //     descr: 'to delete the 2 lines',
-    //   },
-    // ]);
 
     let array: any[] = ([
       {
@@ -181,21 +125,26 @@ export class JoinRoom extends PureComponent<IProps, IState> {
       ' A   - to append text at the end',
       ' :wq - to save and exit',
       ' :q! - to trash all changes',
-      ' dw  - move the cursor to the beginning of the word to delete that word',
+      ' dd  - to delete the line',
+      ' dw  - to delete word',
+      ' d2w - which deletes 2 words',
       ' 2w  - to move the cursor two words forward.',
       ' 3e  - to move the cursor to the end of the third word forward.',
       ' 0   - to move to the start of the line.',
-      ' d2w - which deletes 2 words',
-      ' dd  - to delete the line',
+      ' i   - switch to INSERT mode',
+      ' v   - switch to VISUAL mode',
+      ' ESC - switch to NORMAL mode',
+      ' gt  - switch to next tab',
+      ' gT  - switch to previous tab',
     ];
 
+    const welcomeStack = new Stack(array);
+    const tutorialStack = new Stack(tutorial);
+
     setInterval(() => {
-      const {command, descr} = array.shift();
+      const {command} = welcomeStack.next();
 
-      array.push({command, descr});
-
-      const first = tutorial.shift() || '';
-      tutorial.push(first);
+      tutorialStack.next();
 
       // @ts-ignore
       figlet(`${command}`, 'Standard', (err, data) => {
@@ -203,7 +152,7 @@ export class JoinRoom extends PureComponent<IProps, IState> {
           lines: [
             ...data.split(/\n/g),
             ' ',
-            ...tutorial.slice(0, 8)
+            ...tutorialStack.slice(0, 8)
           ],
         })
       });

@@ -3,10 +3,9 @@ import {Command} from '../constants';
 import {Subject} from 'rxjs/index';
 
 export enum EditorMode {
-  TRANSFORM = 'TRANSFORM',
+  NORMAL = 'NORMAL',
   INSERT = 'INSERT',
-  SELECT = 'SELECT',
-  VIEW = 'VIEW',
+  VISUAL = 'VISUAL',
 }
 
 export interface IPlayerState {

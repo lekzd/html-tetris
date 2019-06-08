@@ -1,24 +1,37 @@
 import {Node} from "./Node";
+import {Stack} from '../utils/Stack';
 
 export class ImgNode extends Node {
 
   childless = true;
 
-  onAddAttribute(name: string) {
-    if (name === 'src') {
-      this.attributes.set('src', 'cat.png');
-    }
+  onCreate() {
+    this.attributesConfig = {
+      ...this.attributesConfig,
 
-    if (name === 'aria-label') {
-      this.attributes.set('aria-label', 'a11y');
-    }
+      src: new Stack([
+        'cat.png',
+        'dog.png',
+        'bird.png',
+      ]),
 
-    if (name === 'title') {
-      this.attributes.set('title', 'cat');
-    }
+      'aria-label': new Stack([
+        'Cat',
+        'Dog',
+        'Bird',
+      ]),
 
-    if (name === 'class') {
-      this.attributes.set('class', 'cat-img');
+      alt: new Stack([
+        'Cat',
+        'Dog',
+        'Bird',
+      ]),
+
+      title: new Stack([
+        'Cat',
+        'Dog',
+        'Bird',
+      ])
     }
   }
 

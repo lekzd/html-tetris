@@ -4,6 +4,7 @@ import commonShader from './shaders/common.frag';
 import redShader from './shaders/red.frag';
 import pulseShader from './shaders/pulse.frag';
 import joinRoomWaveShader from './shaders/joinRoomWave.frag';
+import syntWaveAffectedShader from './shaders/syntWaveAffected.frag';
 
 export const TERMINAL_THEME = {
   background: color('#0e1111'),
@@ -75,7 +76,7 @@ export const COLOR_STYLES = {
   Synthwave: {
     name: 'SynthWave \'84',
     finalShader: commonShader,
-    affectedShader: commonShader,
+    affectedShader: syntWaveAffectedShader,
     [SymbolType.BACKGROUND]: color('#2b213a'),
     [SymbolType.NUMBERS_BG]: color('#2b213a'),
     [SymbolType.HIGHLIGHT]: color('#241b30'),
