@@ -54,8 +54,7 @@ export class Dom extends Subject<string[]> {
       return;
     }
 
-    const children = this.data.filter(node => node.parent === parent);
-    const currentIndex = children.indexOf(targetNode);
+    const currentIndex = this.data.indexOf(targetNode);
     const newIndex = currentIndex + offset;
 
     this.data.splice(currentIndex, 1);
@@ -152,5 +151,11 @@ export class Dom extends Subject<string[]> {
     }
 
     return this.drawer.getNodeByPosition(x - leftOffset, y - topOffset);
+  }
+
+  getNodeIndex(node: Node): number {
+    const indexes = this.drawer.getNodeIndexes(node);
+
+    return indexes[0] || 0;
   }
 }

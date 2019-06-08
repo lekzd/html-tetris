@@ -3,6 +3,7 @@ import {CELL_HEIGHT, CELL_WIDTH, Command, gameScrollState$} from "../constants";
 import {Dom} from "../entities/Dom";
 import {Observable, Subject} from "rxjs";
 import {Rectangle} from '../atoms/Rectangle';
+import {takeUntil} from "rxjs/operators";
 import {Node, NodeSectionType} from '../nodes/Node';
 import {color} from '../utils/color';
 import {Word} from '../atoms/Word';
@@ -36,11 +37,24 @@ export class VisualPlayer extends PureComponent<IProps, IState> {
 
   private goToNode(targetOffset: number) {
     let {sectionIndex, selectedIndex, selectedTag, x, text} = this.state;
+    
+    if (!selectedTag) {
+       return;
+    }
 
     sectionIndex = 0;
-    selectedIndex = targetOffset > 0
-      ? this.dom.indexesStack.next()
-      : this.dom.indexesStack.prev();
+
+    if (targetOffset === 0) {
+       selectedIndex = this.dom.getNodeIndex(selectedTag);
+    }
+      
+    if (targetOffset > 0) {
+       selectedIndex = this.dom.indexesStack.next();
+    }
+      
+    if (targetOffset < 0) {
+       selectedIndex = this.dom.indexesStack.prev();
+    }
 
     selectedTag = this.dom.getNodeByIndex(selectedIndex);
 
@@ -142,9 +156,11 @@ export class VisualPlayer extends PureComponent<IProps, IState> {
   componentWillMount() {
     this.dom = this.props.dom;
 
-    this.props.input$.subscribe(command => {
-      this.doCommand(command);
-    });
+    this.props.input$
+      .pipe(takeUntil(this.unmount$))
+      .subscribe(command => {
+        this.doCommand(command);
+      });
   }
 
   componentWillUnmount() {

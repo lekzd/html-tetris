@@ -8,6 +8,10 @@ export class Stack<T> {
     this.array = array.slice(0);
   }
 
+  get current(): T {
+     return this.array[0];
+  }
+
   prev(): T {
     const prev = this.array.pop();
 
