@@ -86,7 +86,7 @@ export class ChooseRoom extends PureComponent<IProps, IState> {
       spaces,
       lines: [
         '<body>',
-        `${[...Array(spaces)].join(' ')}<img src="src" alt="a11y" />`,
+        `${[...Array(spaces)].fill(' ').join('')}<img src="src" alt="a11y" />`,
         '</body>'
       ]
     });
