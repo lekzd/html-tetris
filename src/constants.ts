@@ -46,7 +46,6 @@ export const RANDOM_ATTRS = [
   'xs',
   'direction',
   'alignItems',
-  'aria-label',
 ];
 
 export const RANDOM_TEXTS: string[] = [

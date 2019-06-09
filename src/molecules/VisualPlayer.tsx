@@ -29,7 +29,7 @@ export class VisualPlayer extends PureComponent<IProps, IState> {
 
   state = {
     x: 1,
-    text: 'VISUAL',
+    text: 'body',
     selectedIndex: this.firstIndex,
     selectedTag: this.dom.getNodeByIndex(this.firstIndex),
     sectionIndex: 0,
@@ -37,7 +37,7 @@ export class VisualPlayer extends PureComponent<IProps, IState> {
 
   private goToNode(targetOffset: number) {
     let {sectionIndex, selectedIndex, selectedTag, x, text} = this.state;
-    
+
     if (!selectedTag) {
        return;
     }
@@ -47,11 +47,11 @@ export class VisualPlayer extends PureComponent<IProps, IState> {
     if (targetOffset === 0) {
        selectedIndex = this.dom.getNodeIndex(selectedTag);
     }
-      
+
     if (targetOffset > 0) {
        selectedIndex = this.dom.indexesStack.next();
     }
-      
+
     if (targetOffset < 0) {
        selectedIndex = this.dom.indexesStack.prev();
     }
@@ -170,19 +170,20 @@ export class VisualPlayer extends PureComponent<IProps, IState> {
   render() {
     const width = this.state.text.length * CELL_WIDTH;
     const height = CELL_HEIGHT;
+    const {leftOffset, topOffset} = gameScrollState$.value;
 
     return this.state.selectedTag &&
       <Fragment>
         <Rectangle
-          x={(3 + this.state.x) * CELL_WIDTH}
-          y={(this.state.selectedIndex + gameScrollState$.value.topOffset) * CELL_HEIGHT}
+          x={(leftOffset + this.state.x) * CELL_WIDTH}
+          y={(this.state.selectedIndex + topOffset) * CELL_HEIGHT}
           width={width}
           height={height}
           fill={color('#ff0000')}
         />
         <Word
-          x={(3 + this.state.x) * CELL_WIDTH}
-          y={(this.state.selectedIndex + gameScrollState$.value.topOffset) * CELL_HEIGHT}
+          x={(leftOffset + this.state.x) * CELL_WIDTH}
+          y={(this.state.selectedIndex + topOffset) * CELL_HEIGHT}
           fill={color('#ffffff')}
           text={this.state.text}
         />

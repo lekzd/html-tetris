@@ -8,13 +8,12 @@ import {SymbolType} from "../entities/SymbolType";
 
 interface IProps {
   lines: string[];
-  leftOffset: number;
   topOffset: number;
   linesHeight: number;
   activeIndex: number;
 }
 
-export const LineNumbers: React.FC<IProps> = ({lines, leftOffset, topOffset, linesHeight, activeIndex}) => (
+export const LineNumbers: React.FC<IProps> = ({lines, topOffset, linesHeight, activeIndex}) => (
 
   <StyleContext.Consumer>
     {style =>
@@ -22,7 +21,7 @@ export const LineNumbers: React.FC<IProps> = ({lines, leftOffset, topOffset, lin
         <Rectangle
           x={0}
           y={0}
-          width={leftOffset * CELL_WIDTH}
+          width={3 * CELL_WIDTH}
           height={linesHeight * CELL_HEIGHT}
           fill={style[SymbolType.NUMBERS_BG]}
         />
@@ -31,7 +30,7 @@ export const LineNumbers: React.FC<IProps> = ({lines, leftOffset, topOffset, lin
           <Rectangle
             x={0}
             y={(activeIndex + topOffset) * CELL_HEIGHT}
-            width={leftOffset * CELL_WIDTH}
+            width={3 * CELL_WIDTH}
             height={CELL_HEIGHT}
             fill={NUMBERS_COLOR}
           />

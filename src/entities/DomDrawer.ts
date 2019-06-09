@@ -9,6 +9,7 @@ export class DomDrawer {
   private renderedLines: string[] = [];
   private renderedIndexes = new Map<number, Node>();
   private openedIndexes: number[] = [];
+  private spacesCount: number = 2;
 
   constructor(private nodes: Node[]) {};
 
@@ -24,7 +25,7 @@ export class DomDrawer {
       this.renderedIndexes.set(index - 1, node);
       this.openedIndexes.push(index - 1);
 
-      this.traverseNodes(deepIndex + 4, node);
+      this.traverseNodes(deepIndex + this.spacesCount, node);
 
       if (!node.childless) {
         const closedTag = this.getCloseTag(node);
@@ -90,6 +91,10 @@ export class DomDrawer {
 
   private getCloseTag(tag: Node): string {
     return `</${tag.name}>`;
+  }
+
+  setSpaces(value: number) {
+    this.spacesCount = value;
   }
 
   getNodeIndexes(node: Node): number[] {

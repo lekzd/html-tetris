@@ -37,14 +37,6 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
           link={style.asciiLink}
         />
 
-        <LineNumbers
-          linesHeight={linesHeight}
-          lines={lines}
-          leftOffset={leftOffset}
-          topOffset={topOffset}
-          activeIndex={activeIndex}
-        />
-
         <Filter shader={style.finalShader}>
           <CodeLines
             linesHeight={linesHeight}
@@ -53,6 +45,13 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
             topOffset={topOffset}
           />
         </Filter>
+
+        <LineNumbers
+          linesHeight={linesHeight}
+          lines={lines}
+          topOffset={topOffset}
+          activeIndex={activeIndex}
+        />
 
         <Rectangle
           x={0}

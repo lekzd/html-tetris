@@ -13,6 +13,8 @@ export class Dom extends Subject<string[]> {
   private data: Node[] = [];
   private drawer = new DomDrawer(this.data);
 
+  private spacesCount: number = 2;
+
   private createNode(name: string, parent?: Node): Node {
     if (!nodeTypes[name]) {
       throw Error(`No node by name "${name}"`);
@@ -38,6 +40,16 @@ export class Dom extends Subject<string[]> {
 
   get indexesStack(): Stack<number> {
     return this.drawer.indexesStack;
+  }
+
+  set spaces(value: number) {
+    this.spacesCount = value;
+
+    this.drawer.setSpaces(value);
+  }
+
+  get spaces(): number {
+    return this.spacesCount;
   }
 
   unshiftNode(name: string, parent?: Node) {

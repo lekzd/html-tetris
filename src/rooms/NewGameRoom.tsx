@@ -12,6 +12,7 @@ import {SymbolType} from "../entities/SymbolType";
 import {CodeView} from "../organisms/CodeView";
 import {AffectedLines} from '../molecules/AffectedLines';
 import {PlayersContext} from '../entities/PlayersContext';
+import {skip} from 'rxjs/internal/operators';
 
 interface IProps {
   style: IStyle;
@@ -30,6 +31,7 @@ interface IState {
 export class NewGameRoom extends PureComponent<IProps, IState> {
   private unmount$ = new Subject();
   private dom = new Dom();
+  private scrollTouched = false;
 
   state = {
     style: this.props.style,
@@ -47,6 +49,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
   }
 
   componentWillMount() {
+    this.dom.spaces = this.props.spaces;
 
     // setInterval(() => {
     //   this.setState({
@@ -69,8 +72,11 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
     gameScrollState$
       .pipe(
-        takeUntil(this.unmount$)
+        takeUntil(this.unmount$),
+        skip(1),
       ).subscribe(({leftOffset, topOffset}) => {
+        this.scrollTouched = true;
+
         this.setState({leftOffset, topOffset});
       });
 
@@ -81,9 +87,13 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
         const topOffset = (HEIGHT - lines.length) >> 1;
         const leftOffset = 3;
 
-        gameScrollState$.next({leftOffset, topOffset});
+        if (!this.scrollTouched) {
+          gameScrollState$.next({leftOffset, topOffset});
+          this.setState({lines, leftOffset, topOffset});
+        } else {
+          this.setState({lines});
+        }
 
-        this.setState({lines, leftOffset, topOffset});
       });
 
     this.dom.pushNode('body');

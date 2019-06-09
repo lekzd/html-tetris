@@ -21,16 +21,18 @@ export class NormalPlayer extends PureComponent<IProps, IState> {
     .pipe(
       takeUntil(this.unmount$),
       filter(command => [Command.LEFT, Command.SHIFT_LEFT].includes(command)),
-      filter(() => gameScrollState$.value.leftOffset < 3),
-      map(() => gameScrollState$.value.leftOffset - 1)
+      filter(() => gameScrollState$.value.leftOffset < WIDTH),
+      map(command => command === Command.SHIFT_LEFT ? 5 : 1),
+      map(value => gameScrollState$.value.leftOffset + value)
     );
 
   private rightInput$ = this.props.input$
     .pipe(
       takeUntil(this.unmount$),
       filter(command => [Command.RIGHT, Command.SHIFT_RIGHT].includes(command)),
-      filter(() => gameScrollState$.value.leftOffset > WIDTH),
-      map(() => gameScrollState$.value.leftOffset + 1)
+      filter(() => gameScrollState$.value.leftOffset > -WIDTH),
+      map(command => command === Command.SHIFT_RIGHT ? 5 : 1),
+      map(value => gameScrollState$.value.leftOffset - value)
     );
 
   private topInput$ = this.props.input$
@@ -38,7 +40,8 @@ export class NormalPlayer extends PureComponent<IProps, IState> {
       takeUntil(this.unmount$),
       filter(command => [Command.TOP, Command.SHIFT_TOP].includes(command)),
       filter(() => gameScrollState$.value.topOffset < HEIGHT),
-      map(() => gameScrollState$.value.topOffset + 1)
+      map(command => command === Command.SHIFT_TOP ? 5 : 1),
+      map(value => gameScrollState$.value.topOffset + value)
     );
 
   private bottomInput$ = this.props.input$
@@ -46,7 +49,8 @@ export class NormalPlayer extends PureComponent<IProps, IState> {
       takeUntil(this.unmount$),
       filter(command => [Command.BOTTOM, Command.SHIFT_BOTTOM].includes(command)),
       filter(() => gameScrollState$.value.topOffset > -HEIGHT),
-      map(() => gameScrollState$.value.topOffset - 1)
+      map(command => command === Command.SHIFT_BOTTOM ? 5 : 1),
+      map(value => gameScrollState$.value.topOffset - value)
     );
 
   state = {
