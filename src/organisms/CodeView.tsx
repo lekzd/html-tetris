@@ -10,6 +10,7 @@ import {BeakWord} from "../molecules/BeakWorld";
 import {Filter} from "../atoms/Filter";
 import {TERMINAL_THEME} from "../colorStyles";
 import {PlayersContext} from '../entities/PlayersContext';
+import {AsciiArt} from '../molecules/AsciiArt';
 
 interface IProps {
   lines: string[];
@@ -29,6 +30,11 @@ export const CodeView: React.FC<IProps> = ({lines, leftOffset, topOffset, linesH
           width={WIDTH * CELL_WIDTH}
           height={linesHeight * CELL_HEIGHT}
           fill={style[SymbolType.BACKGROUND]}
+        />
+
+        <AsciiArt
+          linesHeight={linesHeight}
+          link={style.asciiLink}
         />
 
         <LineNumbers
