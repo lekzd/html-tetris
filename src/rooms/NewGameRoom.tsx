@@ -129,7 +129,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
                 name={config.name}
                 mode={config.editorMode}
                 dom={this.dom}
-                firstElement={'img'}
+                firstElement={'Container'}
                 input$={config.input$}
               />
             ))}

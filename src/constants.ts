@@ -52,6 +52,7 @@ export const RANDOM_ATTRS = [
 export const RANDOM_TEXTS: string[] = [
   ...RANDOM_TAGS,
   ...RANDOM_ATTRS,
+  ...RANDOM_ATTRS,
 ];
 
 export enum Command {
