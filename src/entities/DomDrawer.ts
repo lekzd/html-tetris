@@ -50,14 +50,20 @@ export class DomDrawer {
     currentIndex += tag.name.length + 1;
 
     if (attributes.size) {
-      [...attributes.entries()]
+      [...attributes.keys()]
+        .sort()
+        .map(key => ([key, attributes.get(key)]))
         .forEach(([name, value]) => {
+          if (!name) {
+            return;
+          }
+
           const {length} = `${name}="${value}"`;
 
           result.push({
             type: NodeSectionType.ATTR,
             name,
-            value,
+            value: value || '',
             start: currentIndex,
             end: currentIndex + length,
           });
@@ -75,8 +81,9 @@ export class DomDrawer {
     let propsStringified = '';
 
     if (attributes.size) {
-      propsStringified = [...attributes.entries()]
-        .map(([key, value]) => `${key}="${value}"`)
+      propsStringified = [...attributes.keys()]
+        .sort()
+        .map(key => `${key}="${attributes.get(key)}"`)
         .join(' ');
 
       str = `<${tag.name} ${propsStringified}>`;

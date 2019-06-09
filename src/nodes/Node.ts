@@ -98,6 +98,14 @@ export class Node {
     return this.attributesConfig[name].slice(0, 5);
   }
 
+  isContainer(): boolean {
+    return this.attributes.has('container');
+  }
+
+  isContainerItem(): boolean {
+    return this.attributes.has('item');
+  }
+
   addAttribute(name: string) {
 
     if (this.attributes.has(name)) {
@@ -110,6 +118,18 @@ export class Node {
       this.attributes.set(name, this.attributesConfig[name].next());
     }
 
+    if (['justify', 'alignItems', 'spacing', 'direction'].includes(name) && !this.isContainer()) {
+      this.addAttribute('container');
+
+      return;
+    }
+
+    if (name === 'container') {
+      this.children.forEach(childNode => {
+        childNode.addAttribute('item');
+      })
+    }
+
     this.onAddAttribute(name);
   }
 
@@ -118,6 +138,10 @@ export class Node {
 
     if (this.childrenWhiteList.length && !this.childrenWhiteList.includes(node.name)) {
       throw Error(`<${this.name}> can't have ${node.name} as a child`);
+    }
+
+    if (this.isContainer()) {
+      node.addAttribute('item');
     }
 
     this.onAddChild(node);
