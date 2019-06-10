@@ -4,7 +4,7 @@ import {Dom} from "../entities/Dom";
 import {Observable, Subject} from "rxjs";
 import {Rectangle} from '../atoms/Rectangle';
 import {takeUntil} from "rxjs/operators";
-import {Node, NodeSectionType} from '../nodes/Node';
+import {BaseNode, NodeSectionType} from '../nodes/Node';
 import {color} from '../utils/color';
 import {Word} from '../atoms/Word';
 
@@ -17,7 +17,7 @@ interface IState {
   text: string;
   x: number;
   selectedIndex: number;
-  selectedTag: Node | null;
+  selectedTag: BaseNode | null;
   sectionIndex: number;
 }
 
@@ -29,7 +29,7 @@ export class VisualPlayer extends PureComponent<IProps, IState> {
 
   state = {
     x: 1,
-    text: 'body',
+    text: 'Container',
     selectedIndex: this.firstIndex,
     selectedTag: this.dom.getNodeByIndex(this.firstIndex),
     sectionIndex: 0,

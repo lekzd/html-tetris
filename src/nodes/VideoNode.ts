@@ -1,10 +1,10 @@
-import {Node} from "./Node";
+import {BaseNode} from "./Node";
 
-export class VideoNode extends Node {
+export class VideoNode extends BaseNode {
 
   childrenWhiteList = ['source'];
 
-  onAddChild(node: Node) {
+  onAddChild(node: BaseNode) {
 
   }
 

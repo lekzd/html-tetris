@@ -1,10 +1,10 @@
-import {Node} from "./Node";
+import {BaseNode} from "./Node";
 
-export class PictureNode extends Node {
+export class PictureNode extends BaseNode {
 
   childrenWhiteList = ['source', 'img'];
 
-  onAddChild(node: Node) {
+  onAddChild(node: BaseNode) {
 
   }
 

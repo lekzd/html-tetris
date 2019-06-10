@@ -1,4 +1,4 @@
-import {INodeSection, Node, NodeSectionType} from "../nodes/Node";
+import {INodeSection, BaseNode, NodeSectionType} from "../nodes/Node";
 import {IAttributes} from "./IAttributes";
 import {Stack} from '../utils/Stack';
 
@@ -7,13 +7,13 @@ export class DomDrawer {
   indexesStack = new Stack<number>([]);
 
   private renderedLines: string[] = [];
-  private renderedIndexes = new Map<number, Node>();
+  private renderedIndexes = new Map<number, BaseNode>();
   private openedIndexes: number[] = [];
   private spacesCount: number = 2;
 
-  constructor(private nodes: Node[]) {};
+  constructor(private nodes: BaseNode[]) {};
 
-  private traverseNodes(deepIndex: number, parent: Node) {
+  private traverseNodes(deepIndex: number, parent: BaseNode) {
     const nodes = this.nodes.filter(node => node.parent === parent);
 
     nodes.forEach(node => {
@@ -36,7 +36,7 @@ export class DomDrawer {
     });
   }
 
-  private getRenderedMetrics(deepIndex: number, tag: Node, attributes: IAttributes): INodeSection[] {
+  private getRenderedMetrics(deepIndex: number, tag: BaseNode, attributes: IAttributes): INodeSection[] {
     let currentIndex = deepIndex + 1;
 
     const result: INodeSection[] = [{
@@ -75,7 +75,7 @@ export class DomDrawer {
     return result;
   }
 
-  private getOpenTag(tag: Node, attributes: IAttributes): string {
+  private getOpenTag(tag: BaseNode, attributes: IAttributes): string {
     let str = `<${tag.name}>`;
 
     let propsStringified = '';
@@ -96,7 +96,7 @@ export class DomDrawer {
     return str;
   }
 
-  private getCloseTag(tag: Node): string {
+  private getCloseTag(tag: BaseNode): string {
     return `</${tag.name}>`;
   }
 
@@ -104,7 +104,7 @@ export class DomDrawer {
     this.spacesCount = value;
   }
 
-  getNodeIndexes(node: Node): number[] {
+  getNodeIndexes(node: BaseNode): number[] {
     const result: number[] = [];
 
     this.renderedIndexes.forEach((renderedNode, index) => {
@@ -120,14 +120,14 @@ export class DomDrawer {
     this.renderedIndexes.clear();
     this.openedIndexes = [];
     this.renderedLines = [];
-    this.traverseNodes(0, undefined as any as Node);
+    this.traverseNodes(0, undefined as any as BaseNode);
 
     this.indexesStack.set(this.openedIndexes);
 
     return this.renderedLines;
   }
 
-  getNodeByPosition(x: number, y: number): Node | null {
+  getNodeByPosition(x: number, y: number): BaseNode | null {
     const node = this.renderedIndexes.get(y) || null;
 
     return node;

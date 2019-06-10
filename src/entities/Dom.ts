@@ -1,21 +1,22 @@
 import {Subject} from "rxjs";
-import {Node} from "../nodes/Node";
+import {BaseNode} from "../nodes/Node";
 import {DomDrawer} from "./DomDrawer";
 import {gameScrollState$} from "../constants";
 import {nodeTypes} from "../nodes/nodeTypes";
 import {Stack} from '../utils/Stack';
+import {materialMarkup$} from '../App';
 
 export class Dom extends Subject<string[]> {
 
   affectedLines$ = new Subject<number[]>();
   renderedLines: string[] = [];
 
-  private data: Node[] = [];
+  private data: BaseNode[] = [];
   private drawer = new DomDrawer(this.data);
 
   private spacesCount: number = 2;
 
-  private createNode(name: string, parent?: Node): Node {
+  private createNode(name: string, parent?: BaseNode): BaseNode {
     if (!nodeTypes[name]) {
       throw Error(`No node by name "${name}"`);
     }
@@ -35,6 +36,8 @@ export class Dom extends Subject<string[]> {
   private renderTree() {
     this.renderedLines = this.drawer.getRenderedStrings();
 
+    materialMarkup$.next(this.data.find(node => !node.parent));
+
     this.next(this.renderedLines);
   }
 
@@ -52,7 +55,7 @@ export class Dom extends Subject<string[]> {
     return this.spacesCount;
   }
 
-  unshiftNode(name: string, parent?: Node) {
+  unshiftNode(name: string, parent?: BaseNode) {
     const newNode = this.createNode(name, parent);
 
     this.data.unshift(newNode);
@@ -60,7 +63,7 @@ export class Dom extends Subject<string[]> {
     this.affectedLines$.next(this.drawer.getNodeIndexes(newNode));
   }
 
-  private moveNode(targetNode: Node, offset: number) {
+  private moveNode(targetNode: BaseNode, offset: number) {
     const {parent} = targetNode;
     if (!parent) {
       return;
@@ -81,11 +84,13 @@ export class Dom extends Subject<string[]> {
       ...clonedArray.slice(newIndex),
     ]);
 
+    parent.children = this.data.filter(child => child.parent === parent);
+
     this.renderTree();
     this.affectedLines$.next(this.drawer.getNodeIndexes(targetNode));
   }
 
-  moveNodeDown(targetNode: Node) {
+  moveNodeDown(targetNode: BaseNode) {
     const {parent} = targetNode;
 
     if (parent) {
@@ -103,7 +108,7 @@ export class Dom extends Subject<string[]> {
     }
   }
 
-  moveNodeUp(targetNode: Node) {
+  moveNodeUp(targetNode: BaseNode) {
     const {parent} = targetNode;
 
     if (parent) {
@@ -121,7 +126,7 @@ export class Dom extends Subject<string[]> {
     }
   }
 
-  pushNode(name: string, parent?: Node) {
+  pushNode(name: string, parent?: BaseNode) {
     const newNode = this.createNode(name, parent);
 
     this.data.push(newNode);
@@ -129,25 +134,25 @@ export class Dom extends Subject<string[]> {
     this.affectedLines$.next(this.drawer.getNodeIndexes(newNode));
   }
 
-  addAttribute(name: string, node: Node) {
+  addAttribute(name: string, node: BaseNode) {
     node.addAttribute(name);
 
     this.renderTree();
     this.affectedLines$.next(this.drawer.getNodeIndexes(node));
   }
 
-  setAttribute(name: string, value: string, node: Node) {
+  setAttribute(name: string, value: string, node: BaseNode) {
     node.setAttribute(name, value);
 
     this.renderTree();
     this.affectedLines$.next(this.drawer.getNodeIndexes(node));
   }
 
-  getNodeByIndex(index: number): Node | null {
+  getNodeByIndex(index: number): BaseNode | null {
     return this.drawer.getNodeByPosition(0, index);
   }
 
-  getNodeByPosition(x: number, y: number): Node | null {
+  getNodeByPosition(x: number, y: number): BaseNode | null {
     const {leftOffset, topOffset} = gameScrollState$.value;
     const rendered = this.renderedLines[y - topOffset];
 
@@ -165,7 +170,7 @@ export class Dom extends Subject<string[]> {
     return this.drawer.getNodeByPosition(x - leftOffset, y - topOffset);
   }
 
-  getNodeIndex(node: Node): number {
+  getNodeIndex(node: BaseNode): number {
     const indexes = this.drawer.getNodeIndexes(node);
 
     return indexes[0] || 0;

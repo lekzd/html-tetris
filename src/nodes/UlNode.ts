@@ -1,7 +1,7 @@
-import {Node} from "./Node";
+import {BaseNode} from "./Node";
 import {Stack} from '../utils/Stack';
 
-export class UlNode extends Node {
+export class UlNode extends BaseNode {
 
   childrenWhiteList = ['li'];
 

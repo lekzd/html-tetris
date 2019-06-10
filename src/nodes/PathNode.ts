@@ -1,6 +1,6 @@
-import {Node} from "./Node";
+import {BaseNode} from "./Node";
 
-export class PathNode extends Node {
+export class PathNode extends BaseNode {
 
   childless = true;
 

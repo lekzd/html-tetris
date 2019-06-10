@@ -1,6 +1,6 @@
-import {Node} from "./Node";
+import {BaseNode} from "./Node";
 
-export class SourceNode extends Node {
+export class SourceNode extends BaseNode {
 
   childless = true;
 

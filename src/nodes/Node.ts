@@ -31,11 +31,11 @@ const sizes = [
   'auto',
 ];
 
-export class Node {
+export class BaseNode {
 
   childless = false;
   attributes = new Map<string, string>();
-  children: Node[] = [];
+  children: BaseNode[] = [];
   renderedMetrics: INodeSection[] = [];
 
   childrenWhiteList: string[] = [];
@@ -49,41 +49,78 @@ export class Node {
       'space-around',
     ]),
 
-    id: new Stack([
-      'first',
-      'second',
-      'third',
-      'header',
+    alignItems: new Stack([
+      'center',
+      'start',
+      'end',
+      'space-between',
+      'space-around',
+    ]),
+
+    justify: new Stack([
+      'center',
+      'start',
+      'end',
+      'space-between',
+      'space-around',
+    ]),
+
+    spacing: new Stack([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+    ]),
+
+    xs: new Stack([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
     ]),
 
     width: new Stack(sizes),
 
     height: new Stack(sizes),
 
-    style: new Stack([
-      'position: relative; z-index: 1',
-      'visibility: hidden',
-      'border: 3px solid black',
+    direction: new Stack([
+      'row',
+      'column',
     ]),
 
-    onclick: new Stack([
-      'alert("hi!")',
-      'history.back()',
+    color: new Stack([
+      'inherit',
+      'primary',
+      'secondary',
+      'action',
+      'error',
+      'disabled',
     ]),
 
-    role: new Stack([
-      'label',
-      'button',
-      'banner',
-      'form',
-      'checkbox',
-      'main',
+    variant: new Stack([
+      'flat',
+      'outline',
+      'none',
     ]),
   };
 
   constructor(protected dom: Dom,
               public name: string,
-              public parent?: Node) {
+              public parent?: BaseNode) {
   }
 
   setAttribute(name: string, value: string) {
@@ -133,8 +170,8 @@ export class Node {
     this.onAddAttribute(name);
   }
 
-  addChild(node: Node) {
-    this.children.push(node);
+  addChild(node: BaseNode) {
+    this.children.unshift(node);
 
     if (this.childrenWhiteList.length && !this.childrenWhiteList.includes(node.name)) {
       throw Error(`<${this.name}> can't have ${node.name} as a child`);
@@ -155,7 +192,7 @@ export class Node {
 
   }
 
-  onAddChild(node: Node) {
+  onAddChild(node: BaseNode) {
 
   }
 

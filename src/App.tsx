@@ -7,6 +7,8 @@ import {interval, Subject} from 'rxjs/index';
 import {EditorMode, IPlayerState, PlayersContext} from './entities/PlayersContext';
 import {KeyBoardInput} from './entities/KeyBoardInput';
 import {color} from './utils/color';
+import {MaterialPreview} from './organisms/MaterialPreview';
+import {BaseNode} from './nodes/Node';
 
 export const mainTimer$ = interval(100);
 
@@ -18,6 +20,7 @@ interface IState {
 }
 
 export const setPlayerState$ = new Subject<Partial<IPlayerState>>();
+export const materialMarkup$ = new Subject<BaseNode>();
 
 const height = 800;
 const width = 1200;
@@ -68,6 +71,10 @@ export class App extends PureComponent<IProps, IState> {
             {React.createElement(component as any, props)}
           </PlayersContext.Provider>
         </Stage>
+
+        <section className="Preview">
+          <MaterialPreview input$={materialMarkup$}/>
+        </section>
       </div>
     );
   }

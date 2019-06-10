@@ -1,10 +1,10 @@
-import {Node} from "./Node";
+import {BaseNode} from "./Node";
 
-export class TrNode extends Node {
+export class TrNode extends BaseNode {
 
   childrenWhiteList = ['td', 'th'];
 
-  onAddChild(node: Node) {
+  onAddChild(node: BaseNode) {
 
   }
 

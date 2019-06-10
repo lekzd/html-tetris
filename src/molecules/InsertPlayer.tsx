@@ -253,9 +253,11 @@ export class InsertPlayer extends PureComponent<IProps, IState> {
       .pipe(takeUntil(this.unmount$))
       .subscribe(() => this.tick());
 
-    this.props.input$.subscribe(command => {
-      this.setState({state: command});
-    });
+    this.props.input$
+      .pipe(takeUntil(this.unmount$))
+      .subscribe(command => {
+        this.setState({state: command});
+      });
   }
 
   componentWillUnmount() {

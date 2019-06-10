@@ -1,7 +1,7 @@
-import {Node} from "./Node";
+import {BaseNode} from "./Node";
 import {Stack} from '../utils/Stack';
 
-export class ImgNode extends Node {
+export class ImgNode extends BaseNode {
 
   childless = true;
 

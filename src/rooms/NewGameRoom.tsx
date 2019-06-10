@@ -96,7 +96,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
 
       });
 
-    this.dom.pushNode('body');
+    this.dom.pushNode('Container');
   }
 
   componentWillUnmount() {
@@ -139,7 +139,7 @@ export class NewGameRoom extends PureComponent<IProps, IState> {
                 name={config.name}
                 mode={config.editorMode}
                 dom={this.dom}
-                firstElement={'Container'}
+                firstElement={'Grid'}
                 input$={config.input$}
               />
             ))}
